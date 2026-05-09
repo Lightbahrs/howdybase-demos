@@ -29,7 +29,10 @@
     }
 
     .hero {
-      background: var(--navy);
+      background-color: var(--navy);
+      background-image: var(--hero-bg, none);
+      background-size: cover;
+      background-position: center;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -42,12 +45,10 @@
     .hero::before {
       content: '';
       position: absolute;
-      top: -100px;
-      right: -100px;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(244,115,28,0.15) 0%, transparent 70%);
+      inset: 0;
+      background: rgba(13, 27, 42, 0.72);
       pointer-events: none;
+      z-index: 0;
     }
 
     .hero::after {
@@ -58,6 +59,12 @@
       right: 0;
       height: 4px;
       background: var(--orange);
+      z-index: 2;
+    }
+
+    .hero > * {
+      position: relative;
+      z-index: 1;
     }
 
     .badge {
@@ -320,7 +327,7 @@
 </head>
 <body>
 
-  <section class="hero">
+  <section class="hero" style="--hero-bg: url('<!-- HERO_PHOTO_URL -->')">
     <div class="badge">
       <span class="badge-dot"></span>
       <!-- CITY -->, TX · Verified Business
