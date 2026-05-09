@@ -1,0 +1,52 @@
+You are generating content for a demo roofing website that will be cold-pitched to a local roofing business in Dallas, TX. The site is designed to impress the business owner when they open it — it uses their real Google photos, reviews, and stats.
+
+Given the Google Places data below, return a single JSON object with all the content needed to populate the site template and write a cold email.
+
+PHOTO SELECTION RULES:
+- heroPhotoStyle: Pick the best landscape exterior roofing photo from the imageUrls array. Return the value as "--hero-bg: url('URL')" with the chosen photo URL substituted in. Prefer photos showing completed roofing jobs, crews on roofs, or finished exteriors. Skip headshots, office interiors, logos, and equipment close-ups. If no suitable photo exists, return an empty string "".
+- photo1Url, photo2Url, photo3Url: Pick 3 more photos DIFFERENT from the hero photo (exterior roofing work preferred). Return "" for any unavailable slots. These appear in a horizontal strip below the hero.
+
+CONTENT RULES:
+- businessNameMain: First display line of the business name (e.g. "Comrade Roofing")
+- businessNameSub: Second display line — typically "& Construction" or similar. If the name is short, put the full name in main and leave sub empty "".
+- heroSub: 1-2 sentences personalized to this business based on their reviews and rating. Mention their review count and rating naturally. Example: "Trusted roofing in Dallas backed by 72 five-star reviews. Honest work, fair prices, and a crew that shows up when they say they will."
+- stat3Value + stat3Label: A compelling third hero stat. Use "100%" + "5-Star Reviews" if all reviews are 5-star. Otherwise use something like "10+" + "Years Experience" or similar.
+- review1Text/Attribution through review3Text/Attribution: Pick the 3 best, most specific reviews. Attribution format exactly: "— FirstName L. · Google Review"
+- googleMapsUrl: Full Google Maps URL linking directly to the business listing using the place ID if available, otherwise use: "https://www.google.com/maps/search/?api=1&query=BUSINESS+NAME+CITY+TX"
+- ctaSub: 1-2 sentences for the bottom CTA section. Reference their review count. Example: "Join 72 Dallas homeowners who trusted Comrade Roofing with their biggest investment."
+- pageTitle: Browser tab title. Format: "Business Name | Trusted Dallas Roofing"
+- businessName: Full business name exactly as listed (used in the footer)
+- slug: URL-safe slug. Lowercase, replace spaces and special characters with hyphens, collapse multiple hyphens, no trailing hyphens. Examples: "aco-roofing-gutters", "comrade-roofing-construction", "buildpro-roofing"
+- emailSubject: Cold email subject line that references the demo site. Make it intriguing but not spammy. Example: "I built a free website for ACO Roofing — take a look"
+- emailBody: Full cold email body. Professional but conversational. 3-4 short paragraphs. Mention their specific review count and rating, that HowdyBase built this site for free as a demo, and include the demo URL https://demo.howdybase.com/SLUG (substitute the actual slug). End with a soft call to action — ask if they'd like to keep it. Sign off as "The HowdyBase Team".
+
+Return ONLY valid JSON — no markdown fences, no explanation, no extra text. The response must be parseable by JSON.parse() directly.
+
+Required JSON structure:
+{
+  "heroPhotoStyle": "--hero-bg: url('https://...')",
+  "photo1Url": "https://...",
+  "photo2Url": "https://...",
+  "photo3Url": "https://...",
+  "businessNameMain": "...",
+  "businessNameSub": "...",
+  "heroSub": "...",
+  "stat3Value": "...",
+  "stat3Label": "...",
+  "review1Text": "...",
+  "review1Attribution": "— Name L. · Google Review",
+  "review2Text": "...",
+  "review2Attribution": "— Name L. · Google Review",
+  "review3Text": "...",
+  "review3Attribution": "— Name L. · Google Review",
+  "googleMapsUrl": "https://...",
+  "ctaSub": "...",
+  "pageTitle": "...",
+  "businessName": "...",
+  "slug": "...",
+  "emailSubject": "...",
+  "emailBody": "..."
+}
+
+GOOGLE PLACES DATA:
+{{BUSINESS_DATA}}
