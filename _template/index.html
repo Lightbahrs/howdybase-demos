@@ -62,6 +62,24 @@
       z-index: 2;
     }
 
+    /* PHOTO STRIP */
+    .photo-strip {
+      display: grid;
+      grid-template-columns: repeat(var(--strip-cols, 3), 1fr);
+      height: 240px;
+      overflow: hidden;
+    }
+
+    .photo-strip.strip-2 { --strip-cols: 2; }
+    .photo-strip.hidden { display: none; }
+
+    .photo-strip img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     .hero > * {
       position: relative;
       z-index: 1;
@@ -363,6 +381,13 @@
     </div>
   </section>
 
+  <!-- PHOTO STRIP — hidden by default; JS below shows it if photos are present -->
+  <div class="photo-strip hidden" id="photoStrip">
+    <img src="<!-- PHOTO_1_URL -->" alt="" loading="lazy" id="stripPhoto1">
+    <img src="<!-- PHOTO_2_URL -->" alt="" loading="lazy" id="stripPhoto2">
+    <img src="<!-- PHOTO_3_URL -->" alt="" loading="lazy" id="stripPhoto3">
+  </div>
+
   <section class="reviews" id="reviews">
     <div class="section-label">What Customers Say</div>
     <h2 class="section-title">Real Reviews.<br>Real Results.</h2>
@@ -449,6 +474,24 @@
   <footer class="footer">
     <p class="footer-text"><!-- BUSINESS_NAME --> · <!-- CITY -->, TX · Licensed & Insured</p>
   </footer>
+
+  <script>
+  (function() {
+    var strip = document.getElementById('photoStrip');
+    var p1 = document.getElementById('stripPhoto1');
+    var p2 = document.getElementById('stripPhoto2');
+    var p3 = document.getElementById('stripPhoto3');
+    var validSrc = function(el) { return (el.getAttribute('src') || '').startsWith('http'); };
+    var count = [p1, p2, p3].filter(validSrc).length;
+    if (count >= 2) {
+      strip.classList.remove('hidden');
+      if (count === 2) {
+        strip.classList.add('strip-2');
+        p3.style.display = 'none';
+      }
+    }
+  })();
+  </script>
 
 </body>
 </html>
