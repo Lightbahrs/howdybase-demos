@@ -12,7 +12,8 @@ const claudeResponse = $('Claude API').first().json;
 // 2. Parse Claude JSON output
 let claude;
 try {
-  const rawText = claudeResponse.content[0].text.trim();
+  let rawText = claudeResponse.content[0].text.trim();
+  rawText = rawText.replace(/^```(?:json)?\s*\n?/i, '').replace(/\n?```\s*$/i, '');
   claude = JSON.parse(rawText);
 } catch (e) {
   throw new Error('Claude response is not valid JSON: ' + e.message + '\nRaw: ' + claudeResponse.content[0].text.slice(0, 200));
