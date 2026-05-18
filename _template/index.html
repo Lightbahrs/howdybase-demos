@@ -28,25 +28,32 @@
       overflow-x: hidden;
     }
 
+    /* ── HERO ── */
     .hero {
       background-color: var(--navy);
       background-image: var(--hero-bg, none);
       background-size: cover;
-      background-position: center;
+      background-position: center top;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-end;
       padding: 60px 24px 80px;
       position: relative;
       overflow: hidden;
     }
 
+    /* gradient: transparent at top → dark navy at bottom — shows photo clearly */
     .hero::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(13, 27, 42, 0.72);
+      background: linear-gradient(
+        to bottom,
+        rgba(13, 27, 42, 0.25) 0%,
+        rgba(13, 27, 42, 0.50) 45%,
+        rgba(13, 27, 42, 0.88) 100%
+      );
       pointer-events: none;
       z-index: 0;
     }
@@ -71,7 +78,7 @@
     .photo-strip {
       display: grid;
       grid-template-columns: repeat(var(--strip-cols, 3), 1fr);
-      height: 240px;
+      height: 320px;
       overflow: hidden;
     }
 
@@ -83,7 +90,10 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      transition: transform 0.4s ease;
     }
+
+    .photo-strip img:hover { transform: scale(1.03); }
 
     .badge {
       display: inline-flex;
@@ -143,9 +153,9 @@
 
     .hero-sub {
       font-size: 18px;
-      color: rgba(255,255,255,0.65);
+      color: rgba(255,255,255,0.75);
       line-height: 1.6;
-      max-width: 480px;
+      max-width: 520px;
       margin-bottom: 40px;
       animation: fadeUp 0.9s ease both;
     }
@@ -216,6 +226,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* ── REVIEWS ── */
     .reviews {
       background: var(--gray);
       padding: 80px 24px;
@@ -246,6 +257,12 @@
       padding: 28px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
       border-left: 3px solid var(--orange);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .review-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.10);
     }
 
     .stars { display: flex; gap: 3px; margin-bottom: 14px; }
@@ -277,6 +294,7 @@
 
     .google-link:hover { border-color: var(--orange); color: var(--orange); }
 
+    /* ── SERVICES ── */
     .services { background: var(--navy); padding: 80px 24px; }
     .services .section-title { color: var(--white); }
     .services-grid { display: grid; gap: 16px; }
@@ -289,12 +307,107 @@
       display: flex;
       align-items: flex-start;
       gap: 16px;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      cursor: default;
+    }
+
+    .service-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(244,115,28,0.35);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.25);
     }
 
     .service-icon { font-size: 28px; flex-shrink: 0; }
     .service-name { font-weight: 600; font-size: 16px; color: var(--white); margin-bottom: 6px; }
     .service-desc { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.5; }
 
+    /* ── CONTACT FORM ── */
+    .contact {
+      background: var(--white);
+      padding: 80px 24px;
+    }
+
+    .contact .section-title { color: var(--navy); }
+
+    .contact-form {
+      max-width: 560px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-row {
+      display: grid;
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      letter-spacing: 0.02em;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      background: var(--gray);
+      border: 1.5px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 12px 16px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(244,115,28,0.12);
+      background: var(--white);
+    }
+
+    .form-group textarea { resize: vertical; min-height: 110px; }
+
+    .btn-submit {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--white);
+      background: var(--orange);
+      border: none;
+      border-radius: 8px;
+      padding: 16px 32px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      align-self: flex-start;
+    }
+
+    .btn-submit:hover { background: var(--orange-dark); transform: translateY(-1px); }
+    .btn-submit:active { transform: translateY(0); }
+
+    .form-success {
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+      border-radius: 10px;
+      padding: 28px 24px;
+      color: #166534;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    /* ── CTA FOOTER ── */
     .cta-footer { background: var(--orange); padding: 80px 24px; text-align: center; }
     .cta-footer .section-label { color: rgba(255,255,255,0.7); }
 
@@ -332,12 +445,14 @@
       .reviews-grid { grid-template-columns: 1fr 1fr; }
       .services-grid { grid-template-columns: 1fr 1fr; }
       .hero-cta { flex-direction: row; align-items: center; }
+      .form-row { grid-template-columns: 1fr 1fr; }
     }
 
     @media (min-width: 1024px) {
       .hero { padding: 100px 64px; }
       .reviews { padding: 100px 64px; }
       .services { padding: 100px 64px; }
+      .contact { padding: 100px 64px; }
       .reviews-grid { grid-template-columns: repeat(3, 1fr); }
       .services-grid { grid-template-columns: repeat(3, 1fr); }
     }
@@ -345,7 +460,6 @@
 </head>
 <body>
 
-  <!-- n8n injects style="--hero-bg: url('PHOTO_URL')" when a hero photo is available -->
   <section class="hero" style="<!-- HERO_PHOTO_STYLE -->">
     <div class="badge">
       <span class="badge-dot"></span>
@@ -375,13 +489,13 @@
       <a href="tel:<!-- PHONE_DIGITS -->" class="btn-primary">
         📞 Call <!-- PHONE_DISPLAY -->
       </a>
-      <a href="#reviews" class="btn-secondary">
-        See what customers say →
+      <a href="#estimate" class="btn-secondary">
+        Get a free estimate →
       </a>
     </div>
   </section>
 
-  <!-- PHOTO STRIP — hidden by default; JS below shows it if photos are present -->
+  <!-- PHOTO STRIP — hidden by default; JS shows it when photos are present -->
   <div class="photo-strip hidden" id="photoStrip">
     <img src="<!-- PHOTO_1_URL -->" alt="" loading="lazy" id="stripPhoto1">
     <img src="<!-- PHOTO_2_URL -->" alt="" loading="lazy" id="stripPhoto2">
@@ -421,45 +535,84 @@
         <span class="service-icon">🏠</span>
         <div>
           <p class="service-name">Roof Replacement</p>
-          <p class="service-desc">Full residential and commercial roof replacement with premium materials.</p>
+          <p class="service-desc">Full residential and commercial roof replacement with premium materials and a clean job site.</p>
         </div>
       </div>
       <div class="service-card">
         <span class="service-icon">🔧</span>
         <div>
           <p class="service-name">Roof Repair</p>
-          <p class="service-desc">Fast, reliable repairs for leaks, storm damage, and missing shingles.</p>
+          <p class="service-desc">Fast, reliable repairs for leaks, storm damage, and missing shingles — done right the first time.</p>
         </div>
       </div>
       <div class="service-card">
         <span class="service-icon">⛈️</span>
         <div>
           <p class="service-name">Storm Damage</p>
-          <p class="service-desc">Insurance claim assistance and storm restoration — we handle it all.</p>
+          <p class="service-desc">Insurance claim assistance and storm restoration — we handle the paperwork and the work.</p>
         </div>
       </div>
       <div class="service-card">
         <span class="service-icon">🔍</span>
         <div>
           <p class="service-name">Free Inspection</p>
-          <p class="service-desc">Thorough roof inspections with a detailed report — no pressure.</p>
+          <p class="service-desc">Thorough roof inspections with a detailed report and honest advice — no pressure, ever.</p>
         </div>
       </div>
       <div class="service-card">
         <span class="service-icon">🪟</span>
         <div>
           <p class="service-name">Gutters & Siding</p>
-          <p class="service-desc">Gutter installation, replacement, and exterior siding work.</p>
+          <p class="service-desc">Gutter installation, replacement, and exterior siding — complete exterior solutions.</p>
         </div>
       </div>
       <div class="service-card">
         <span class="service-icon">📋</span>
         <div>
           <p class="service-name">Insurance Claims</p>
-          <p class="service-desc">We work directly with your insurance company so you don't have to.</p>
+          <p class="service-desc">We work directly with your insurance company so you don't have to navigate it alone.</p>
         </div>
       </div>
     </div>
+  </section>
+
+  <!-- CONTACT / ESTIMATE FORM -->
+  <section class="contact" id="estimate">
+    <div class="section-label">Free Estimate</div>
+    <h2 class="section-title">Request a<br>Callback.</h2>
+    <form class="contact-form" id="contactForm" novalidate>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="fname">Your Name</label>
+          <input type="text" id="fname" name="name" placeholder="John Smith" required>
+        </div>
+        <div class="form-group">
+          <label for="fphone">Phone Number</label>
+          <input type="tel" id="fphone" name="phone" placeholder="(555) 555-5555" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="femail">Email Address</label>
+        <input type="email" id="femail" name="email" placeholder="john@example.com">
+      </div>
+      <div class="form-group">
+        <label for="fservice">What do you need?</label>
+        <select id="fservice" name="service">
+          <option value="">Select a service...</option>
+          <option>Roof Replacement</option>
+          <option>Roof Repair</option>
+          <option>Storm Damage / Insurance Claim</option>
+          <option>Free Inspection</option>
+          <option>Gutters or Siding</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="fmessage">Anything else? (optional)</label>
+        <textarea id="fmessage" name="message" placeholder="Describe your situation or any questions you have..."></textarea>
+      </div>
+      <button type="submit" class="btn-submit">Send My Request →</button>
+    </form>
   </section>
 
   <section class="cta-footer">
@@ -477,6 +630,7 @@
 
   <script>
   (function() {
+    // Photo strip
     var strip = document.getElementById('photoStrip');
     var p1 = document.getElementById('stripPhoto1');
     var p2 = document.getElementById('stripPhoto2');
@@ -489,6 +643,23 @@
         strip.classList.add('strip-2');
         p3.style.display = 'none';
       }
+    }
+
+    // Contact form
+    var form = document.getElementById('contactForm');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var name = document.getElementById('fname').value.trim();
+        var phone = document.getElementById('fphone').value.trim();
+        if (!name || !phone) {
+          document.getElementById('fname').style.borderColor = name ? '' : 'var(--orange)';
+          document.getElementById('fphone').style.borderColor = phone ? '' : 'var(--orange)';
+          return;
+        }
+        form.innerHTML = '<div class="form-success">✓ Got it, ' + name + '! Someone will reach out to ' + phone + ' within a few hours to schedule your free estimate.</div>';
+        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
     }
   })();
   </script>
