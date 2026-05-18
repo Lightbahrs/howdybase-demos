@@ -1,883 +1,767 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title><!-- PAGE_TITLE --></title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --navy: #0d1b2a;
-      --navy-light: #1a2e45;
-      --orange: #f4731c;
-      --orange-dark: #d4600f;
-      --white: #ffffff;
-      --gray: #f5f5f3;
-      --text: #1a1a1a;
-      --muted: #6b7280;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      color: var(--text);
-      background: var(--white);
-      overflow-x: hidden;
-    }
-
-    /* ── HERO ── */
-    .hero {
-      background: linear-gradient(140deg, #0d1b2a 0%, #1a2e45 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 48px;
-      padding: 80px 24px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Subtle orange glow top-right */
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -240px;
-      right: -240px;
-      width: 640px;
-      height: 640px;
-      background: radial-gradient(circle, rgba(244,115,28,0.10) 0%, transparent 68%);
-      pointer-events: none;
-    }
-
-    /* Orange accent line at bottom */
-    .hero::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: var(--orange);
-    }
-
-    .hero-content {
-      flex: 1;
-      max-width: 560px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-visual {
-      flex: 0 0 400px;
-      display: none;
-      flex-direction: column;
-      gap: 12px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-photo-frame {
-      border-radius: 16px;
-      overflow: hidden;
-      aspect-ratio: 4 / 3;
-      background: var(--navy-light);
-      border: 1px solid rgba(255,255,255,0.07);
-      box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
-    }
-
-    .hero-photo-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.5s ease;
-    }
-
-    .hero-photo-frame:hover img { transform: scale(1.03); }
-
-    .hero-proof-bar {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 10px;
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .proof-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .proof-stars { font-size: 13px; letter-spacing: 1px; }
-
-    .proof-text {
-      font-size: 13px;
-      font-weight: 600;
-      color: rgba(255,255,255,0.85);
-    }
-
-    .proof-badge {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--orange);
-      background: rgba(244,115,28,0.12);
-      border: 1px solid rgba(244,115,28,0.25);
-      padding: 4px 10px;
-      border-radius: 100px;
-      white-space: nowrap;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(244,115,28,0.12);
-      border: 1px solid rgba(244,115,28,0.28);
-      color: var(--orange);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 6px 14px;
-      border-radius: 100px;
-      margin-bottom: 24px;
-      width: fit-content;
-      animation: fadeUp 0.5s ease both;
-    }
-
-    .badge-dot {
-      width: 6px;
-      height: 6px;
-      background: var(--orange);
-      border-radius: 50%;
-      animation: pulse 2s ease infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.7); }
-    }
-
-    .hero-eyebrow {
-      font-size: 13px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.4);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-      animation: fadeUp 0.6s ease both;
-    }
-
-    .hero-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(56px, 10vw, 88px);
-      line-height: 0.93;
-      color: var(--white);
-      margin-bottom: 20px;
-      animation: fadeUp 0.7s ease both;
-    }
-
-    .hero-title span {
-      color: var(--orange);
-      display: block;
-    }
-
-    .hero-sub {
-      font-size: 17px;
-      color: rgba(255,255,255,0.6);
-      line-height: 1.65;
-      max-width: 460px;
-      margin-bottom: 36px;
-      animation: fadeUp 0.8s ease both;
-    }
-
-    .hero-stats {
-      display: flex;
-      gap: 28px;
-      margin-bottom: 44px;
-      padding-bottom: 36px;
-      border-bottom: 1px solid rgba(255,255,255,0.07);
-      animation: fadeUp 0.9s ease both;
-    }
-
-    .stat { display: flex; flex-direction: column; gap: 3px; }
-
-    .stat-number {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 40px;
-      color: var(--orange);
-      line-height: 1;
-    }
-
-    .stat-label {
-      font-size: 12px;
-      color: rgba(255,255,255,0.4);
-      letter-spacing: 0.03em;
-    }
-
-    .hero-cta {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      animation: fadeUp 1s ease both;
-    }
-
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: var(--orange);
-      color: var(--white);
-      font-size: 16px;
-      font-weight: 600;
-      padding: 16px 30px;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
-      width: fit-content;
-      box-shadow: 0 4px 24px rgba(244,115,28,0.35);
-    }
-
-    .btn-primary:hover {
-      background: var(--orange-dark);
-      transform: translateY(-1px);
-      box-shadow: 0 8px 32px rgba(244,115,28,0.45);
-    }
-
-    .btn-primary:active { transform: translateY(0); }
-
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: rgba(255,255,255,0.5);
-      font-size: 14px;
-      text-decoration: none;
-      width: fit-content;
-      transition: color 0.2s;
-      letter-spacing: 0.02em;
-    }
-
-    .btn-secondary:hover { color: rgba(255,255,255,0.85); }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── PHOTO STRIP (2 photos) ── */
-    .photo-strip {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      height: 320px;
-      overflow: hidden;
-    }
-
-    .photo-strip.hidden { display: none; }
-
-    .photo-strip img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.5s ease;
-    }
-
-    .photo-strip img:hover { transform: scale(1.04); }
-
-    /* ── REVIEWS ── */
-    .reviews {
-      background: var(--gray);
-      padding: 80px 24px;
-    }
-
-    .section-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 10px;
-    }
-
-    .section-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(36px, 7vw, 52px);
-      color: var(--navy);
-      line-height: 1;
-      margin-bottom: 44px;
-    }
-
-    .reviews-grid { display: grid; gap: 16px; }
-
-    .review-card {
-      background: var(--white);
-      border-radius: 12px;
-      padding: 24px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.04);
-      border-left: 3px solid var(--orange);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .review-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
-    }
-
-    .stars { font-size: 14px; margin-bottom: 12px; letter-spacing: 1px; }
-
-    .review-text {
-      font-size: 15px;
-      line-height: 1.7;
-      color: #374151;
-      margin-bottom: 14px;
-    }
-
-    .reviewer { font-size: 12px; font-weight: 600; color: var(--muted); }
-
-    .google-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 28px;
-      color: var(--muted);
-      font-size: 13px;
-      text-decoration: none;
-      border: 1px solid #e5e7eb;
-      padding: 10px 18px;
-      border-radius: 8px;
-      background: var(--white);
-      transition: border-color 0.2s, color 0.2s;
-    }
-
-    .google-link:hover { border-color: var(--orange); color: var(--orange); }
-
-    /* ── SERVICES ── */
-    .services { background: var(--navy); padding: 80px 24px; }
-    .services .section-title { color: var(--white); }
-    .services-grid { display: grid; gap: 12px; }
-
-    .service-card {
-      background: rgba(255,255,255,0.03);
-      border-radius: 10px;
-      padding: 22px;
-      border: 1px solid rgba(255,255,255,0.06);
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      transition: transform 0.2s, border-color 0.2s, background 0.2s;
-      cursor: default;
-    }
-
-    .service-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(244,115,28,0.30);
-      background: rgba(244,115,28,0.04);
-    }
-
-    .service-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
-    .service-name { font-weight: 600; font-size: 15px; color: var(--white); margin-bottom: 4px; }
-    .service-desc { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.55; }
-
-    /* ── CONTACT FORM ── */
-    .contact {
-      background: var(--white);
-      padding: 80px 24px;
-    }
-
-    .contact-inner {
-      max-width: 600px;
-    }
-
-    .contact .section-title { color: var(--navy); }
-
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .form-row { display: grid; gap: 14px; }
-
-    .form-group { display: flex; flex-direction: column; gap: 5px; }
-
-    .form-group label {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--navy);
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      color: var(--text);
-      background: var(--gray);
-      border: 1.5px solid #e5e7eb;
-      border-radius: 8px;
-      padding: 12px 14px;
-      outline: none;
-      transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
-      width: 100%;
-      -webkit-appearance: none;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      border-color: var(--orange);
-      box-shadow: 0 0 0 3px rgba(244,115,28,0.10);
-      background: var(--white);
-    }
-
-    .form-group textarea { resize: vertical; min-height: 100px; }
-
-    .btn-submit {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--white);
-      background: var(--navy);
-      border: none;
-      border-radius: 8px;
-      padding: 15px 28px;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-      align-self: flex-start;
-      letter-spacing: 0.02em;
-    }
-
-    .btn-submit:hover { background: #1a2e45; transform: translateY(-1px); }
-    .btn-submit:active { transform: translateY(0); }
-
-    .form-success {
-      background: #f0fdf4;
-      border: 1.5px solid #86efac;
-      border-radius: 10px;
-      padding: 24px;
-      color: #166534;
-      font-size: 15px;
-      font-weight: 500;
-      line-height: 1.6;
-    }
-
-    /* ── CTA FOOTER ── */
-    .cta-footer { background: var(--orange); padding: 80px 24px; text-align: center; }
-    .cta-footer .section-label { color: rgba(255,255,255,0.65); }
-
-    .cta-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(44px, 10vw, 72px);
-      color: var(--white);
-      line-height: 0.95;
-      margin-bottom: 16px;
-    }
-
-    .cta-sub {
-      font-size: 17px;
-      color: rgba(255,255,255,0.8);
-      margin-bottom: 36px;
-      line-height: 1.55;
-      max-width: 480px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .btn-white {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--white);
-      color: var(--orange);
-      font-size: 17px;
-      font-weight: 700;
-      padding: 18px 36px;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: transform 0.1s, box-shadow 0.2s;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.18);
-    }
-
-    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(0,0,0,0.24); }
-
-    .footer { background: var(--navy); padding: 24px; text-align: center; }
-    .footer-text { font-size: 12px; color: rgba(255,255,255,0.25); letter-spacing: 0.03em; }
-
-    /* ── RESPONSIVE ── */
-    @media (min-width: 640px) {
-      .reviews-grid { grid-template-columns: 1fr 1fr; }
-      .services-grid { grid-template-columns: 1fr 1fr; }
-      .hero-cta { flex-direction: row; align-items: center; }
-      .form-row { grid-template-columns: 1fr 1fr; }
-    }
-
-    @media (min-width: 960px) {
-      .hero { padding: 80px 64px; }
-      .hero-visual { display: flex; }
-    }
-
-    @media (min-width: 1024px) {
-      .reviews { padding: 100px 64px; }
-      .services { padding: 100px 64px; }
-      .contact { padding: 100px 64px; }
-      .reviews-grid { grid-template-columns: repeat(3, 1fr); }
-      .services-grid { grid-template-columns: repeat(3, 1fr); }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><!-- PAGE_TITLE --></title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+/* ── Reset ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:#080d14;color:#f0f4ff;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer}
+
+/* ── Tokens ── */
+:root{
+  --orange:#f4731c;
+  --orange-dim:rgba(244,115,28,.12);
+  --orange-glow:rgba(244,115,28,.28);
+  --navy:#080d14;
+  --surf:#0d1521;
+  --surf2:#13213a;
+  --bord:rgba(255,255,255,.08);
+  --bord2:rgba(255,255,255,.13);
+  --text:#f0f4ff;
+  --muted:rgba(240,244,255,.52);
+  --display:'Bebas Neue','Impact',sans-serif;
+}
+
+/* ── NAV ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:300;display:flex;align-items:center;justify-content:space-between;padding:13px 36px;background:rgba(8,13,20,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--bord)}
+.nav-brand{display:flex;align-items:center;gap:10px}
+.nav-icon{width:30px;height:30px;background:var(--orange);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.nav-name{font-weight:700;font-size:14px;letter-spacing:-.2px;white-space:nowrap}
+.nav-links{display:flex;gap:2px}
+.nav-link{padding:7px 14px;font-size:13px;font-weight:500;color:var(--muted);border-radius:7px;transition:color .18s,background .18s}
+.nav-link:hover{color:var(--text);background:rgba(255,255,255,.06)}
+.nav-cta{display:flex;align-items:center;gap:7px;padding:8px 22px;background:var(--orange);color:#fff;font-weight:700;font-size:14px;border-radius:8px;white-space:nowrap;transition:opacity .18s,transform .15s;box-shadow:0 3px 14px var(--orange-glow)}
+.nav-cta:hover{opacity:.9;transform:translateY(-1px)}
+@media(max-width:700px){.nav-links{display:none}.nav{padding:12px 20px}}
+
+/* ── HERO ── */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding-top:56px}
+#bgCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.hero-bg-css{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 80% 60% at 15% 50%,rgba(10,22,58,.9) 0%,transparent 65%),radial-gradient(ellipse 60% 40% at 85% 20%,rgba(8,18,48,.7) 0%,transparent 55%),linear-gradient(135deg,#080d14 0%,#0c1528 60%,#080d14 100%)}
+
+.hero-inner{position:relative;z-index:10;width:100%;max-width:1300px;margin:0 auto;padding:88px 44px 80px;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+@media(max-width:980px){.hero-inner{grid-template-columns:1fr;padding:72px 24px 64px;gap:48px}}
+
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--orange-dim);border:1px solid rgba(244,115,28,.3);color:var(--orange);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:22px}
+.badge-dot{width:6px;height:6px;background:var(--orange);border-radius:50%;animation:bdot 2.2s ease-in-out infinite}
+@keyframes bdot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.75)}}
+
+.hero-title{font-family:var(--display);line-height:.93;letter-spacing:.5px;margin-bottom:18px;font-size:clamp(54px,7.2vw,92px)}
+.t-white{display:block;color:var(--text)}
+.t-orange{display:block;color:var(--orange)}
+
+.hero-sub{font-size:16px;line-height:1.7;color:var(--muted);max-width:460px;margin-bottom:32px}
+
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--bord);border:1px solid var(--bord);border-radius:12px;overflow:hidden;margin-bottom:32px}
+.hstat{background:rgba(13,21,33,.75);padding:14px 10px;text-align:center;backdrop-filter:blur(4px)}
+.hstat-val{font-family:var(--display);font-size:26px;line-height:1;color:var(--text);margin-bottom:3px}
+.hstat-val .o{color:var(--orange)}
+.hstat-lbl{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+@media(max-width:480px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--orange);color:#fff;font-weight:800;font-size:15px;padding:13px 26px;border-radius:10px;border:none;transition:transform .15s,box-shadow .2s,opacity .18s;box-shadow:0 4px 22px var(--orange-glow)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(244,115,28,.52)}
+.btn-ghost{display:inline-flex;align-items:center;gap:7px;background:transparent;color:var(--text);font-weight:600;font-size:15px;padding:13px 22px;border-radius:10px;border:1px solid var(--bord2);transition:border-color .2s,background .2s}
+.btn-ghost:hover{border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.05)}
+
+/* hero visual */
+.hero-visual{position:relative}
+.float-tag{position:absolute;top:-14px;right:-14px;background:rgba(13,21,33,.92);border:1px solid var(--bord2);border-radius:12px;padding:10px 15px;font-size:12px;box-shadow:0 8px 28px rgba(0,0,0,.5);backdrop-filter:blur(8px);z-index:2;min-width:165px}
+.ft-title{font-weight:700;font-size:13px;margin-bottom:3px}
+.ft-sub{color:var(--muted);font-size:11px}
+.photo-frame{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:4/3;background:var(--surf);box-shadow:0 28px 80px rgba(0,0,0,.65),0 0 0 1px var(--bord)}
+.photo-frame img{width:100%;height:100%;object-fit:cover;transition:transform .55s ease}
+.photo-frame:hover img{transform:scale(1.035)}
+.photo-overlay{position:absolute;bottom:0;left:0;right:0;padding:18px 20px;background:linear-gradient(to top,rgba(8,13,20,.92) 0%,transparent 100%)}
+.po-stars{color:#fbbf24;font-size:13px;letter-spacing:1px;margin-bottom:3px}
+.po-meta{font-size:12px;color:rgba(240,244,255,.8);font-weight:600}
+@media(max-width:980px){.hero-visual{display:none}}
+
+/* ── TICKER ── */
+.ticker-wrap{overflow:hidden;border-top:1px solid var(--bord);border-bottom:1px solid var(--bord);background:var(--surf);padding:11px 0}
+.ticker{display:flex;white-space:nowrap;animation:ticker 38s linear infinite;width:max-content}
+.ticker:hover{animation-play-state:paused}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ti{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:600;color:var(--muted);padding:0 26px;flex-shrink:0}
+.ti .ts{color:#fbbf24}
+.ti .to{color:var(--orange)}
+.ti-sep{color:var(--bord2);margin:0 2px}
+
+/* ── STATS STRIP ── */
+.stats-strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--bord);border-bottom:1px solid var(--bord)}
+.ss{padding:30px 20px;border-right:1px solid var(--bord);text-align:center}
+.ss:last-child{border-right:none}
+.ss-val{font-family:var(--display);font-size:40px;color:var(--orange);line-height:1;margin-bottom:5px}
+.ss-lbl{font-size:12px;color:var(--muted);font-weight:500}
+@media(max-width:640px){.stats-strip{grid-template-columns:repeat(2,1fr)}.ss{border-bottom:1px solid var(--bord)}}
+
+/* ── SECTIONS COMMON ── */
+.sec-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);margin-bottom:10px}
+.sec-title{font-family:var(--display);font-size:clamp(30px,4vw,50px);line-height:1.05;margin-bottom:36px}
+.sec-sub{font-size:15px;color:var(--muted);line-height:1.65;max-width:500px}
+
+/* ── CAROUSEL ── */
+.car-section{padding:96px 44px;max-width:1300px;margin:0 auto}
+@media(max-width:640px){.car-section{padding:60px 20px}}
+.car-wrap{position:relative;border-radius:20px;overflow:hidden;background:var(--surf);border:1px solid var(--bord)}
+.car-slides{position:relative;height:480px}
+@media(max-width:640px){.car-slides{height:260px}}
+.car-slide{position:absolute;inset:0;opacity:0;transition:opacity .6s ease;z-index:0}
+.car-slide.active{opacity:1;z-index:1}
+.car-slide img{width:100%;height:100%;object-fit:cover}
+.car-btns{display:grid;background:rgba(8,13,20,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--bord)}
+.car-btn{position:relative;text-align:left;padding:14px 18px;cursor:pointer;border:none;background:transparent;color:var(--text);border-right:1px solid var(--bord);transition:background .2s;overflow:hidden}
+.car-btn:last-child{border-right:none}
+.car-btn:hover{background:rgba(255,255,255,.04)}
+.car-btn.active{background:rgba(244,115,28,.08)}
+.cb-label{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;padding:2px 8px;border-radius:4px;margin-bottom:5px;background:rgba(255,255,255,.12);color:var(--text);transition:background .2s}
+.car-btn.active .cb-label{background:var(--orange)}
+.cb-desc{font-size:12px;color:var(--muted);line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cb-prog{position:absolute;bottom:0;left:0;height:3px;background:var(--orange);width:0%}
+.car-note{font-size:11px;color:var(--muted);text-align:center;margin-top:10px;opacity:.7}
+
+/* ── REVIEWS ── */
+.rev-section{padding:96px 44px;background:var(--surf);border-top:1px solid var(--bord);border-bottom:1px solid var(--bord)}
+@media(max-width:640px){.rev-section{padding:60px 20px}}
+.rev-inner{max-width:1300px;margin:0 auto}
+.rev-header{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:52px}
+.rev-badge{display:flex;align-items:center;gap:9px;background:var(--surf2);border:1px solid var(--bord2);border-radius:10px;padding:10px 16px;font-size:13px;font-weight:600;white-space:nowrap}
+.rb-stars{color:#fbbf24}
+.featured-rev{margin-bottom:44px;padding-bottom:44px;border-bottom:1px solid var(--bord)}
+.feat-quote{font-size:clamp(19px,2.4vw,28px);font-weight:600;line-height:1.42;color:var(--text);max-width:820px;margin-bottom:18px;position:relative;padding-left:44px}
+.feat-quote::before{content:'\201C';font-family:Georgia,serif;font-size:72px;line-height:0;position:absolute;left:0;top:.35em;color:var(--orange);opacity:.65}
+.feat-attr{font-size:13px;color:var(--muted);font-style:italic;padding-left:44px}
+.rev-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:640px){.rev-grid{grid-template-columns:1fr}}
+.rev-card{background:var(--surf2);border:1px solid var(--bord);border-radius:16px;padding:26px;transition:border-color .2s,transform .2s}
+.rev-card:hover{border-color:rgba(244,115,28,.25);transform:translateY(-2px)}
+.rc-stars{color:#fbbf24;font-size:13px;margin-bottom:10px;letter-spacing:1px}
+.rc-text{font-size:14px;line-height:1.65;color:rgba(240,244,255,.8);margin-bottom:14px}
+.rc-attr{font-size:12px;color:var(--muted);font-style:italic}
+
+/* ── SERVICES ── */
+.svc-outer{border-top:1px solid var(--bord)}
+.svc-section{padding:96px 44px;max-width:1300px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+@media(max-width:920px){.svc-section{grid-template-columns:1fr;gap:44px;padding:60px 20px}}
+.svc-list{display:flex;flex-direction:column;gap:4px;margin-top:4px}
+.svc-item{position:relative;display:flex;align-items:flex-start;gap:14px;padding:15px 16px;border-radius:12px;cursor:pointer;border:1px solid transparent;transition:background .22s,border-color .22s;overflow:hidden}
+.svc-item.active{background:var(--orange-dim);border-color:rgba(244,115,28,.22)}
+.svc-item:hover:not(.active){background:rgba(255,255,255,.03)}
+.svc-icon{flex-shrink:0;width:36px;height:36px;border-radius:8px;background:var(--surf2);display:flex;align-items:center;justify-content:center;font-size:17px;transition:background .22s}
+.svc-item.active .svc-icon{background:var(--orange)}
+.svc-body{flex:1;min-width:0}
+.svc-name{font-weight:700;font-size:14px;margin-bottom:3px}
+.svc-desc{font-size:12.5px;color:var(--muted);line-height:1.55;max-height:0;overflow:hidden;opacity:0;transition:max-height .38s ease,opacity .28s}
+.svc-item.active .svc-desc{max-height:80px;opacity:1}
+.svc-prog{position:absolute;bottom:0;left:0;height:2px;background:var(--orange);width:0%}
+
+.svc-panel{border-radius:20px;overflow:hidden;background:var(--surf);border:1px solid var(--bord);aspect-ratio:4/3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:44px;position:relative}
+.svc-panel-icon{font-size:52px;line-height:1}
+.svc-panel-name{font-family:var(--display);font-size:36px;color:var(--text);text-align:center}
+.svc-panel-desc{font-size:14px;color:var(--muted);text-align:center;line-height:1.65;max-width:280px}
+.svc-panel-cta{display:inline-flex;align-items:center;gap:6px;color:var(--orange);font-weight:700;font-size:13px;margin-top:4px}
+.svc-panel-bar{position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--bord)}
+.svc-panel-bar-fill{height:100%;background:var(--orange);width:0%}
+@media(max-width:920px){.svc-panel{display:none}}
+
+/* ── FORM ── */
+.form-section{padding:96px 44px;background:var(--surf);border-top:1px solid var(--bord)}
+@media(max-width:640px){.form-section{padding:60px 20px}}
+.form-inner{max-width:1300px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+@media(max-width:900px){.form-inner{grid-template-columns:1fr;gap:44px}}
+.form-checklist{list-style:none;display:flex;flex-direction:column;gap:11px;margin-top:28px}
+.fc{display:flex;align-items:center;gap:11px;font-size:13px;color:var(--muted)}
+.fc-icon{width:22px;height:22px;border-radius:50%;background:var(--orange-dim);border:1px solid rgba(244,115,28,.3);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--orange);flex-shrink:0}
+.est-form{display:flex;flex-direction:column;gap:14px}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.f-row{grid-template-columns:1fr}}
+.f-field{display:flex;flex-direction:column;gap:5px}
+.f-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.f-input,.f-select,.f-textarea{background:var(--surf2);border:1px solid var(--bord2);border-radius:8px;padding:11px 14px;font-family:inherit;font-size:14px;color:var(--text);transition:border-color .2s,box-shadow .2s;width:100%;-webkit-appearance:none;appearance:none}
+.f-input::placeholder,.f-textarea::placeholder{color:rgba(240,244,255,.28)}
+.f-input:focus,.f-select:focus,.f-textarea:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px rgba(244,115,28,.14)}
+.f-select option{background:#0d1521}
+.f-textarea{resize:vertical;min-height:96px}
+.f-submit{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;background:var(--orange);color:#fff;font-family:inherit;font-size:15px;font-weight:800;border:none;border-radius:10px;cursor:pointer;transition:transform .15s,box-shadow .2s;box-shadow:0 4px 20px var(--orange-glow);margin-top:2px}
+.f-submit:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(244,115,28,.48)}
+.f-note{font-size:11px;color:var(--muted);text-align:center;margin-top:5px}
+.f-success{display:none;text-align:center;padding:48px 20px}
+.fs-icon{font-size:44px;margin-bottom:14px}
+.fs-title{font-family:var(--display);font-size:32px;margin-bottom:7px}
+.fs-sub{color:var(--muted);font-size:14px;line-height:1.6}
+
+/* ── CTA ── */
+.cta-section{background:var(--orange);padding:96px 44px;text-align:center}
+@media(max-width:640px){.cta-section{padding:64px 24px}}
+.cta-eyebrow{display:inline-block;background:rgba(255,255,255,.18);color:#fff;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:18px}
+.cta-title{font-family:var(--display);font-size:clamp(36px,6vw,72px);color:#fff;line-height:1;margin-bottom:10px}
+.cta-sub{font-size:16px;color:rgba(255,255,255,.82);max-width:440px;margin:0 auto 32px;line-height:1.6}
+.cta-phone{display:block;font-family:var(--display);font-size:clamp(38px,7vw,78px);color:#fff;letter-spacing:1px;margin-bottom:26px;transition:opacity .18s}
+.cta-phone:hover{opacity:.82}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--orange);font-weight:800;font-size:16px;padding:15px 32px;border-radius:10px;transition:transform .15s,box-shadow .2s;box-shadow:0 4px 20px rgba(0,0,0,.22)}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.32)}
+
+/* ── FOOTER ── */
+.site-footer{background:var(--navy);border-top:1px solid var(--bord);padding:28px 44px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media(max-width:640px){.site-footer{padding:22px 20px;flex-direction:column;text-align:center}}
+.foot-copy{font-size:12px;color:var(--muted)}
+.foot-maps{font-size:12px;color:var(--orange);font-weight:600}
+.foot-maps:hover{text-decoration:underline}
+
+/* ── CURSOR ARROW ── */
+#arrowCanvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:200;display:none}
+</style>
 </head>
 <body>
 
-  <!-- ── HERO ── -->
-  <section class="hero">
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="nav-icon">&#127968;</div>
+    <span class="nav-name"><!-- BUSINESS_NAME --></span>
+  </div>
+  <div class="nav-links">
+    <a href="#work"     class="nav-link">Our Work</a>
+    <a href="#reviews"  class="nav-link">Reviews</a>
+    <a href="#services" class="nav-link">Services</a>
+    <a href="#estimate" class="nav-link">Estimate</a>
+  </div>
+  <a href="tel:<!-- PHONE_DIGITS -->" class="nav-cta">&#128222;&nbsp;<!-- PHONE_DISPLAY --></a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <canvas id="bgCanvas"></canvas>
+  <div class="hero-bg-css" id="bgCss"></div>
+
+  <div class="hero-inner">
     <div class="hero-content">
-      <div class="badge">
+      <div class="hero-badge">
         <span class="badge-dot"></span>
-        <!-- CITY -->, TX · Verified Business
+        <!-- CITY -->, TX &nbsp;&middot;&nbsp; Licensed &amp; Insured
       </div>
-      <p class="hero-eyebrow">Roofing Contractor</p>
+
       <h1 class="hero-title">
-        <!-- BUSINESS_NAME_MAIN -->
-        <span><!-- BUSINESS_NAME_SUB --></span>
+        <span class="t-white"><!-- BUSINESS_NAME_MAIN --></span>
+        <span class="t-orange"><!-- BUSINESS_NAME_SUB --></span>
       </h1>
+
       <p class="hero-sub"><!-- HERO_SUB --></p>
+
       <div class="hero-stats">
-        <div class="stat">
-          <span class="stat-number"><!-- REVIEW_COUNT --></span>
-          <span class="stat-label">Google Reviews</span>
+        <div class="hstat">
+          <div class="hstat-val">500<span class="o">+</span></div>
+          <div class="hstat-lbl">Roofs Done</div>
         </div>
-        <div class="stat">
-          <span class="stat-number"><!-- RATING --></span>
-          <span class="stat-label">Star Rating</span>
+        <div class="hstat">
+          <div class="hstat-val">15<span class="o">+</span></div>
+          <div class="hstat-lbl">Yrs in <!-- CITY --></div>
         </div>
-        <div class="stat">
-          <span class="stat-number"><!-- STAT_3_VALUE --></span>
-          <span class="stat-label"><!-- STAT_3_LABEL --></span>
+        <div class="hstat">
+          <div class="hstat-val"><span class="o"><!-- RATING --></span>&#9733;</div>
+          <div class="hstat-lbl"><!-- REVIEW_COUNT --> Reviews</div>
+        </div>
+        <div class="hstat">
+          <div class="hstat-val"><!-- STAT_3_VALUE --></div>
+          <div class="hstat-lbl"><!-- STAT_3_LABEL --></div>
         </div>
       </div>
+
       <div class="hero-cta">
         <a href="tel:<!-- PHONE_DIGITS -->" class="btn-primary" id="ctaTarget">
-          📞 <!-- PHONE_DISPLAY -->
+          &#128222; <!-- PHONE_DISPLAY -->
         </a>
-        <a href="#estimate" class="btn-secondary">
-          Get a free estimate →
-        </a>
+        <a href="#estimate" class="btn-ghost">Free Estimate &#8594;</a>
       </div>
     </div>
 
-    <!-- Photo card — right column, desktop only -->
     <div class="hero-visual" id="heroVisual">
-      <div class="hero-photo-frame" id="heroPhotoFrame">
-        <img src="<!-- PHOTO_1_URL -->" alt="<!-- BUSINESS_NAME -->" id="heroPhotoImg">
+      <div class="float-tag">
+        <div class="ft-title">Recent Project &middot; <!-- CITY -->, TX</div>
+        <div class="ft-sub">&#9733;&#9733;&#9733;&#9733;&#9733; &nbsp;&middot;&nbsp; Google Verified</div>
       </div>
-      <div class="hero-proof-bar">
-        <div class="proof-left">
-          <span class="proof-stars">⭐⭐⭐⭐⭐</span>
-          <span class="proof-text"><!-- REVIEW_COUNT --> reviews on Google</span>
+      <div class="photo-frame">
+        <img src="<!-- PHOTO_1_URL -->" alt="<!-- BUSINESS_NAME -->" id="heroPhoto">
+        <div class="photo-overlay">
+          <div class="po-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="po-meta"><!-- BUSINESS_NAME --> &nbsp;&middot;&nbsp; <!-- CITY -->, TX</div>
         </div>
-        <span class="proof-badge"><!-- RATING --> / 5 Stars</span>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ── PHOTO STRIP (photos 2 & 3) ── -->
-  <div class="photo-strip hidden" id="photoStrip">
-    <img src="<!-- PHOTO_2_URL -->" alt="" loading="lazy" id="stripPhoto1">
-    <img src="<!-- PHOTO_3_URL -->" alt="" loading="lazy" id="stripPhoto2">
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker" id="tickerTrack"></div>
+</div>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="ss">
+    <div class="ss-val">500+</div>
+    <div class="ss-lbl">Roofs completed in DFW</div>
+  </div>
+  <div class="ss">
+    <div class="ss-val">15+</div>
+    <div class="ss-lbl">Years serving <!-- CITY --> homeowners</div>
+  </div>
+  <div class="ss">
+    <div class="ss-val"><!-- RATING -->&#9733;</div>
+    <div class="ss-lbl"><!-- REVIEW_COUNT --> verified Google reviews</div>
+  </div>
+  <div class="ss">
+    <div class="ss-val" style="font-size:32px;letter-spacing:1px">Same<br><span style="font-size:.42em;letter-spacing:3px">DAY</span></div>
+    <div class="ss-lbl">Emergency response available</div>
+  </div>
+</div>
+
+<!-- CAROUSEL / OUR WORK -->
+<section class="car-section" id="work">
+  <div class="sec-label">OUR WORK</div>
+  <h2 class="sec-title">From the Job Site</h2>
+
+  <div class="car-wrap">
+    <div class="car-slides">
+      <div class="car-slide active" data-idx="0">
+        <img src="<!-- PHOTO_2_URL -->" alt="Project photo" loading="lazy" id="carImg0">
+      </div>
+      <div class="car-slide" data-idx="1">
+        <img src="<!-- PHOTO_3_URL -->" alt="Project photo" loading="lazy" id="carImg1">
+      </div>
+    </div>
+
+    <div class="car-btns" id="carBtns" style="grid-template-columns:1fr 1fr">
+      <button class="car-btn active" data-to="0">
+        <div class="cb-label">Full Replacement</div>
+        <div class="cb-desc">Complete tear-off and new roof system &mdash; permits, disposal, and cleanup handled.</div>
+        <div class="cb-prog" id="cprog0"></div>
+      </button>
+      <button class="car-btn" data-to="1">
+        <div class="cb-label">Storm Damage Repair</div>
+        <div class="cb-desc">Insurance-approved hail and wind damage restoration, start to finish.</div>
+        <div class="cb-prog" id="cprog1"></div>
+      </button>
+    </div>
   </div>
 
-  <!-- ── REVIEWS ── -->
-  <section class="reviews" id="reviews">
-    <div class="section-label">What Customers Say</div>
-    <h2 class="section-title">Real Reviews.<br>Real Results.</h2>
-    <div class="reviews-grid">
-      <div class="review-card">
-        <div class="stars">⭐⭐⭐⭐⭐</div>
-        <p class="review-text">"<!-- REVIEW_1_TEXT -->"</p>
-        <p class="reviewer"><!-- REVIEW_1_ATTRIBUTION --></p>
+  <p class="car-note">&#10022; Photos pulled from Google Business profile &nbsp;&middot;&nbsp; Actual completed work in <!-- CITY --></p>
+</section>
+
+<!-- REVIEWS -->
+<section class="rev-section" id="reviews">
+  <div class="rev-inner">
+    <div class="rev-header">
+      <div>
+        <div class="sec-label">WHAT CUSTOMERS SAY</div>
+        <h2 class="sec-title" style="margin-bottom:0">Trusted by <!-- CITY --> Homeowners</h2>
       </div>
-      <div class="review-card">
-        <div class="stars">⭐⭐⭐⭐⭐</div>
-        <p class="review-text">"<!-- REVIEW_2_TEXT -->"</p>
-        <p class="reviewer"><!-- REVIEW_2_ATTRIBUTION --></p>
-      </div>
-      <div class="review-card">
-        <div class="stars">⭐⭐⭐⭐⭐</div>
-        <p class="review-text">"<!-- REVIEW_3_TEXT -->"</p>
-        <p class="reviewer"><!-- REVIEW_3_ATTRIBUTION --></p>
+      <div class="rev-badge">
+        <span class="rb-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <!-- RATING --> Stars &nbsp;&middot;&nbsp; <!-- REVIEW_COUNT --> Google Reviews
       </div>
     </div>
-    <a href="<!-- GOOGLE_MAPS_URL -->" target="_blank" class="google-link">
-      🔍 View all <!-- REVIEW_COUNT --> reviews on Google
-    </a>
-  </section>
 
-  <!-- ── SERVICES ── -->
-  <section class="services">
-    <div class="section-label">What We Do</div>
-    <h2 class="section-title">Full Roofing<br>Services</h2>
-    <div class="services-grid">
-      <div class="service-card">
-        <span class="service-icon">🏠</span>
-        <div>
-          <p class="service-name">Roof Replacement</p>
-          <p class="service-desc">Full residential and commercial replacement with premium materials and a spotless job site.</p>
-        </div>
+    <div class="featured-rev">
+      <p class="feat-quote"><!-- REVIEW_1_TEXT --></p>
+      <div class="feat-attr"><!-- REVIEW_1_ATTRIBUTION --></div>
+    </div>
+
+    <div class="rev-grid">
+      <div class="rev-card">
+        <div class="rc-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="rc-text"><!-- REVIEW_2_TEXT --></p>
+        <div class="rc-attr"><!-- REVIEW_2_ATTRIBUTION --></div>
       </div>
-      <div class="service-card">
-        <span class="service-icon">🔧</span>
-        <div>
-          <p class="service-name">Roof Repair</p>
-          <p class="service-desc">Fast, reliable repairs for leaks, storm damage, and missing shingles — done right the first time.</p>
-        </div>
+      <div class="rev-card">
+        <div class="rc-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="rc-text"><!-- REVIEW_3_TEXT --></p>
+        <div class="rc-attr"><!-- REVIEW_3_ATTRIBUTION --></div>
       </div>
-      <div class="service-card">
-        <span class="service-icon">⛈️</span>
-        <div>
-          <p class="service-name">Storm Damage</p>
-          <p class="service-desc">Insurance claim assistance and full storm restoration — we handle the paperwork and the work.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<div class="svc-outer">
+  <div class="svc-section" id="services">
+    <div>
+      <div class="sec-label">WHAT WE DO</div>
+      <h2 class="sec-title">Services Built for<br><!-- CITY --> Weather</h2>
+
+      <div class="svc-list">
+        <div class="svc-item active" data-svc="0">
+          <div class="svc-icon">&#127968;</div>
+          <div class="svc-body">
+            <div class="svc-name">Roof Repair</div>
+            <div class="svc-desc">From minor leaks to major damage &mdash; fast diagnosis, fixed right the first time.</div>
+          </div>
+          <div class="svc-prog" id="sp0"></div>
         </div>
-      </div>
-      <div class="service-card">
-        <span class="service-icon">🔍</span>
-        <div>
-          <p class="service-name">Free Inspection</p>
-          <p class="service-desc">Thorough inspections with a detailed written report — honest advice, no pressure sales.</p>
+        <div class="svc-item" data-svc="1">
+          <div class="svc-icon">&#128295;</div>
+          <div class="svc-body">
+            <div class="svc-name">Full Replacement</div>
+            <div class="svc-desc">Complete tear-off with premium materials. Permits, disposal, and cleanup included.</div>
+          </div>
+          <div class="svc-prog" id="sp1"></div>
         </div>
-      </div>
-      <div class="service-card">
-        <span class="service-icon">🪟</span>
-        <div>
-          <p class="service-name">Gutters & Siding</p>
-          <p class="service-desc">Gutter installation, replacement, and exterior siding — complete exterior solutions.</p>
+        <div class="svc-item" data-svc="2">
+          <div class="svc-icon">&#9928;&#65039;</div>
+          <div class="svc-body">
+            <div class="svc-name">Storm Damage</div>
+            <div class="svc-desc">Hail and wind damage specialists. We work directly with your insurance company.</div>
+          </div>
+          <div class="svc-prog" id="sp2"></div>
         </div>
-      </div>
-      <div class="service-card">
-        <span class="service-icon">📋</span>
-        <div>
-          <p class="service-name">Insurance Claims</p>
-          <p class="service-desc">We work directly with your insurer so you don't have to navigate the process alone.</p>
+        <div class="svc-item" data-svc="3">
+          <div class="svc-icon">&#128269;</div>
+          <div class="svc-body">
+            <div class="svc-name">Free Inspection</div>
+            <div class="svc-desc">No obligation, no pressure. We get on the roof and tell you exactly what you're dealing with.</div>
+          </div>
+          <div class="svc-prog" id="sp3"></div>
+        </div>
+        <div class="svc-item" data-svc="4">
+          <div class="svc-icon">&#128167;</div>
+          <div class="svc-body">
+            <div class="svc-name">Gutters</div>
+            <div class="svc-desc">Seamless gutter installation, cleaning, and repair to protect your foundation.</div>
+          </div>
+          <div class="svc-prog" id="sp4"></div>
+        </div>
+        <div class="svc-item" data-svc="5">
+          <div class="svc-icon">&#128203;</div>
+          <div class="svc-body">
+            <div class="svc-name">Insurance Claims</div>
+            <div class="svc-desc">We navigate documentation, adjuster meetings, and final sign-off with you.</div>
+          </div>
+          <div class="svc-prog" id="sp5"></div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- ── CONTACT / ESTIMATE FORM ── -->
-  <section class="contact" id="estimate">
-    <div class="contact-inner">
-      <div class="section-label">Free Estimate</div>
-      <h2 class="section-title">Request a<br>Callback.</h2>
-      <form class="contact-form" id="contactForm" novalidate>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="fname">Your Name</label>
-            <input type="text" id="fname" name="name" placeholder="John Smith" required>
+    <div class="svc-panel" id="svcPanel">
+      <div class="svc-panel-icon" id="panIcon">&#127968;</div>
+      <div class="svc-panel-name" id="panName">Roof Repair</div>
+      <div class="svc-panel-desc" id="panDesc">From minor leaks to major damage &mdash; fast diagnosis, fixed right the first time.</div>
+      <a href="#estimate" class="svc-panel-cta">Get a Free Estimate &#8594;</a>
+      <div class="svc-panel-bar"><div class="svc-panel-bar-fill" id="panBar"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- FORM -->
+<section class="form-section" id="estimate">
+  <div class="form-inner">
+    <div>
+      <div class="sec-label">GET AN ESTIMATE</div>
+      <h2 class="sec-title">Free Inspection,<br>No Pressure</h2>
+      <p class="sec-sub">We'll come out, get on the roof, and tell you exactly what you're dealing with. No sales pitch, no obligation.</p>
+      <ul class="form-checklist">
+        <li class="fc"><div class="fc-icon">&#10003;</div> Response within 2 hours</li>
+        <li class="fc"><div class="fc-icon">&#10003;</div> Same-day inspection available</li>
+        <li class="fc"><div class="fc-icon">&#9733;</div> <!-- RATING --> Stars &nbsp;&middot;&nbsp; <!-- REVIEW_COUNT --> Google reviews</li>
+        <li class="fc"><div class="fc-icon">&#10003;</div> Licensed &amp; insured in Texas</li>
+      </ul>
+    </div>
+    <div>
+      <form class="est-form" id="estForm">
+        <div class="f-row">
+          <div class="f-field">
+            <label class="f-label">First Name</label>
+            <input class="f-input" type="text" placeholder="Andrew" required>
           </div>
-          <div class="form-group">
-            <label for="fphone">Phone Number</label>
-            <input type="tel" id="fphone" name="phone" placeholder="(555) 555-5555" required>
+          <div class="f-field">
+            <label class="f-label">Last Name</label>
+            <input class="f-input" type="text" placeholder="Johnson" required>
           </div>
         </div>
-        <div class="form-group">
-          <label for="femail">Email Address</label>
-          <input type="email" id="femail" name="email" placeholder="john@example.com">
+        <div class="f-row">
+          <div class="f-field">
+            <label class="f-label">Phone</label>
+            <input class="f-input" type="tel" placeholder="(000) 000-0000" required>
+          </div>
+          <div class="f-field">
+            <label class="f-label">Email</label>
+            <input class="f-input" type="email" placeholder="you@example.com">
+          </div>
         </div>
-        <div class="form-group">
-          <label for="fservice">What do you need?</label>
-          <select id="fservice" name="service">
+        <div class="f-field">
+          <label class="f-label">Service Needed</label>
+          <select class="f-select">
             <option value="">Select a service...</option>
-            <option>Roof Replacement</option>
             <option>Roof Repair</option>
-            <option>Storm Damage / Insurance Claim</option>
+            <option>Full Replacement</option>
+            <option>Storm / Hail Damage</option>
             <option>Free Inspection</option>
-            <option>Gutters or Siding</option>
+            <option>Gutters</option>
+            <option>Insurance Claim Help</option>
             <option>Other</option>
           </select>
         </div>
-        <div class="form-group">
-          <label for="fmessage">Anything else? (optional)</label>
-          <textarea id="fmessage" name="message" placeholder="Describe your situation or any questions you have..."></textarea>
+        <div class="f-field">
+          <label class="f-label">Message (optional)</label>
+          <textarea class="f-textarea" placeholder="Tell us what's going on &mdash; anything specific we should know?"></textarea>
         </div>
-        <button type="submit" class="btn-submit">Send My Request →</button>
+        <button type="submit" class="f-submit">Request Free Inspection &#8594;</button>
+        <p class="f-note">No obligation &nbsp;&middot;&nbsp; We'll call you within 2 hours</p>
       </form>
+      <div class="f-success" id="fSuccess">
+        <div class="fs-icon">&#9989;</div>
+        <div class="fs-title">Request Sent!</div>
+        <div class="fs-sub">We'll be in touch within 2 hours to confirm your free inspection.</div>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ── CTA FOOTER ── -->
-  <section class="cta-footer">
-    <div class="section-label">Ready to Get Started?</div>
-    <h2 class="cta-title">Need a Roof?<br>Call Today.</h2>
-    <p class="cta-sub"><!-- CTA_SUB --></p>
-    <a href="tel:<!-- PHONE_DIGITS -->" class="btn-white">
-      📞 <!-- PHONE_DISPLAY -->
-    </a>
-  </section>
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-eyebrow">Free Inspection &middot; <!-- CITY -->, TX</div>
+  <h2 class="cta-title">Ready to Get Your<br>Roof Right?</h2>
+  <p class="cta-sub"><!-- CTA_SUB --></p>
+  <a href="tel:<!-- PHONE_DIGITS -->" class="cta-phone"><!-- PHONE_DISPLAY --></a>
+  <a href="#estimate" class="cta-btn">Schedule a Free Inspection &#8599;</a>
+</section>
 
-  <footer class="footer">
-    <p class="footer-text"><!-- BUSINESS_NAME --> · <!-- CITY -->, TX · Licensed & Insured</p>
-  </footer>
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="foot-copy">&copy; 2025 <!-- BUSINESS_NAME --> &nbsp;&middot;&nbsp; <!-- CITY -->, TX</div>
+  <a href="<!-- GOOGLE_MAPS_URL -->" target="_blank" rel="noopener" class="foot-maps">&#128205; View on Google Maps</a>
+</footer>
 
-  <!-- Canvas for cursor → CTA arrow (desktop only) -->
-  <canvas id="arrowCanvas" style="position:fixed;inset:0;pointer-events:none;z-index:100;display:none;"></canvas>
+<canvas id="arrowCanvas"></canvas>
 
-  <script>
-  (function() {
+<script>
+'use strict';
 
-    // ── Hero photo: hide frame if photo failed to load ──
-    var heroImg = document.getElementById('heroPhotoImg');
-    var heroVisual = document.getElementById('heroVisual');
-    if (heroImg) {
-      var src = heroImg.getAttribute('src') || '';
-      if (!src.startsWith('http')) {
-        if (heroVisual) heroVisual.style.display = 'none';
-      } else {
-        heroImg.addEventListener('error', function() {
-          if (heroVisual) heroVisual.style.display = 'none';
-        });
-      }
-    }
+/* ── 1. WebGL Hero Background (ported from asd.tsx / 21st.dev) ── */
+(function(){
+  var canvas = document.getElementById('bgCanvas');
+  var bgCss  = document.getElementById('bgCss');
+  if(window.innerWidth < 768){ canvas.style.display='none'; return; }
+  var gl = canvas.getContext('webgl2',{premultipliedAlpha:false,antialias:false});
+  if(!gl){ canvas.style.display='none'; return; }
+  bgCss.style.display='none';
 
-    // ── Photo strip: show if photos 2 & 3 are valid ──
-    var strip = document.getElementById('photoStrip');
-    var sp1 = document.getElementById('stripPhoto1');
-    var sp2 = document.getElementById('stripPhoto2');
-    if (strip) {
-      var validSrc = function(el) { return el && (el.getAttribute('src') || '').startsWith('http'); };
-      var count = [sp1, sp2].filter(validSrc).length;
-      if (count >= 1) strip.classList.remove('hidden');
-      if (count === 1 && sp2 && !validSrc(sp2)) sp2.style.display = 'none';
-    }
+  var VERT=[
+    '#version 300 es','precision highp float;',
+    'layout(location=0) in vec2 a_pos; out vec2 v_uv;',
+    'void main(){ v_uv=a_pos*.5+.5; gl_Position=vec4(a_pos,0.,1.); }'
+  ].join('\n');
 
-    // ── Contact form ──
-    var form = document.getElementById('contactForm');
-    if (form) {
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        var name = document.getElementById('fname').value.trim();
-        var phone = document.getElementById('fphone').value.trim();
-        var hasError = false;
-        [['fname', name], ['fphone', phone]].forEach(function(pair) {
-          var el = document.getElementById(pair[0]);
-          if (!pair[1]) { el.style.borderColor = 'var(--orange)'; hasError = true; }
-          else el.style.borderColor = '';
-        });
-        if (hasError) return;
-        form.innerHTML = '<div class="form-success">✓ Got it, ' + name + '! We\'ll call ' + phone + ' within a few hours to schedule your free estimate.</div>';
-        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      });
-    }
+  var FRAG=[
+    '#version 300 es','precision highp float;',
+    'out vec4 fragColor; in vec2 v_uv;',
+    'uniform vec3 iResolution; uniform float iTime;',
+    'float h21(vec2 p){ p=fract(p*vec2(123.34,456.21)); p+=dot(p,p+45.32); return fract(p.x*p.y); }',
+    'float vn(vec2 p){ vec2 i=floor(p),f=fract(p); float a=h21(i),b=h21(i+vec2(1,0)),c=h21(i+vec2(0,1)),d=h21(i+vec2(1,1)); vec2 u=f*f*(3.-2.*f); return mix(mix(a,b,u.x),mix(c,d,u.x),u.y); }',
+    'float gAA(vec2 uv,float sc,float w){ vec2 g=abs(fract(uv*sc)-.5); float d=min(g.x,g.y),aa=fwidth(d); return 1.-smoothstep(w,w+aa,d); }',
+    'vec3 mesh(vec2 uv){ vec2 p0=vec2(-.70,-.45),p1=vec2(.75,-.35),p2=vec2(-.65,.65),p3=vec2(.80,.55); vec3 c0=vec3(.05,.10,.26),c1=vec3(.08,.16,.36),c2=vec3(.03,.09,.22),c3=vec3(.10,.20,.40); float e=2.; float w0=pow(1./(0.2+distance(uv,p0)),e),w1=pow(1./(0.2+distance(uv,p1)),e),w2=pow(1./(0.2+distance(uv,p2)),e),w3=pow(1./(0.2+distance(uv,p3)),e); float ws=w0+w1+w2+w3; return (c0*w0+c1*w1+c2*w2+c3*w3)/ws; }',
+    'float bay(vec2 p){ ivec2 ip=ivec2(int(mod(p.x,4.)),int(mod(p.y,4.))); int idx=ip.y*4+ip.x; int m[16]; m[0]=0;m[1]=8;m[2]=2;m[3]=10;m[4]=12;m[5]=4;m[6]=14;m[7]=6; m[8]=3;m[9]=11;m[10]=1;m[11]=9;m[12]=15;m[13]=7;m[14]=13;m[15]=5; return float(m[idx])/15.; }',
+    'void main(){',
+    '  vec2 R=iResolution.xy; float t=iTime;',
+    '  vec2 uv=(gl_FragCoord.xy-.5*R)/max(R.y,1.);',
+    '  vec3 bg=mix(vec3(.03,.06,.12),vec3(.05,.09,.18),smoothstep(-.9,.5,-uv.y));',
+    '  bg=mix(bg,mesh(uv),.85);',
+    '  bg*=clamp(pow(1.-.28*length(uv),1.),0.,1.);',
+    '  vec2 ua=uv+0.022*t*normalize(vec2(1.,-.55));',
+    '  bg+=vec3(.58,.66,.95)*gAA(ua,18.,.010)*.22+vec3(.78,.84,1.)*gAA(ua,4.5,.018)*.48;',
+    '  float n=vn(gl_FragCoord.xy*.55+vec2(t*11.,-t*8.)); bg+=(n-.5)*.025;',
+    '  float lm=dot(bg,vec3(.2126,.7152,.0722)); bg+=(bay(gl_FragCoord.xy)-.5)*mix(.010,.004,lm);',
+    '  fragColor=vec4(tanh(bg),1.);',
+    '}'
+  ].join('\n');
 
-    // ── Canvas cursor arrow (desktop / mouse only) ──
-    var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-    if (!isTouchDevice) {
-      var canvas = document.getElementById('arrowCanvas');
-      var ctx = canvas.getContext('2d');
-      var target = document.getElementById('ctaTarget');
-      var mouse = { x: null, y: null };
-      var ORANGE = '244, 115, 28';
+  function sh(type,src){ var s=gl.createShader(type); gl.shaderSource(s,src); gl.compileShader(s); return gl.getShaderParameter(s,gl.COMPILE_STATUS)?s:null; }
+  var vs=sh(gl.VERTEX_SHADER,VERT), fs=sh(gl.FRAGMENT_SHADER,FRAG);
+  if(!vs||!fs){ canvas.style.display='none'; return; }
+  var prog=gl.createProgram(); gl.attachShader(prog,vs); gl.attachShader(prog,fs); gl.linkProgram(prog);
+  if(!gl.getProgramParameter(prog,gl.LINK_STATUS)){ canvas.style.display='none'; return; }
 
-      canvas.style.display = 'block';
+  var vao=gl.createVertexArray(), vbo=gl.createBuffer();
+  gl.bindVertexArray(vao); gl.bindBuffer(gl.ARRAY_BUFFER,vbo);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+  gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
 
-      function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
+  var uRes=gl.getUniformLocation(prog,'iResolution'), uTime=gl.getUniformLocation(prog,'iTime');
+  var dpr=Math.min(window.devicePixelRatio||1,2), t0=performance.now();
 
-      window.addEventListener('resize', resize);
-      window.addEventListener('mousemove', function(e) {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-      });
-      resize();
+  function resize(){ var w=Math.max(1,Math.floor(canvas.clientWidth*dpr)),h=Math.max(1,Math.floor(canvas.clientHeight*dpr)); if(canvas.width!==w||canvas.height!==h){ canvas.width=w; canvas.height=h; gl.viewport(0,0,w,h); } }
+  (new ResizeObserver(resize)).observe(canvas); resize();
 
-      function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+  function tick(now){ if(gl.isContextLost()){ requestAnimationFrame(tick); return; }
+    resize(); gl.useProgram(prog);
+    gl.uniform3f(uRes,canvas.width,canvas.height,dpr); gl.uniform1f(uTime,(now-t0)/1000);
+    gl.bindVertexArray(vao); gl.drawArrays(gl.TRIANGLES,0,3); requestAnimationFrame(tick); }
+  requestAnimationFrame(tick);
+})();
 
-        if (mouse.x === null || !target) {
-          requestAnimationFrame(draw);
-          return;
-        }
+/* ── 2. Hero photo visibility ── */
+(function(){
+  var img=document.getElementById('heroPhoto'), vis=document.getElementById('heroVisual');
+  if(!img||!vis) return;
+  var src=img.getAttribute('src')||'';
+  if(!src||src.indexOf('PHOTO')!==-1){ vis.style.display='none'; return; }
+  img.onerror=function(){ vis.style.display='none'; };
+})();
 
-        var rect = target.getBoundingClientRect();
-        // Don't draw if cursor is hovering the button
-        if (
-          mouse.x >= rect.left && mouse.x <= rect.right &&
-          mouse.y >= rect.top && mouse.y <= rect.bottom
-        ) {
-          requestAnimationFrame(draw);
-          return;
-        }
+/* ── 3. Ticker marquee ── */
+(function(){
+  var track=document.getElementById('tickerTrack'); if(!track) return;
+  var items=[
+    '<span class="ts">&#9733;&#9733;&#9733;&#9733;&#9733;</span> <!-- RATING --> Stars on Google',
+    '<span class="to">&#10022;</span> <!-- REVIEW_COUNT --> Verified Reviews',
+    '<span class="ts">&#9889;</span> Same-Day Emergency Response',
+    '<span class="to">&#10022;</span> <!-- BUSINESS_NAME -->',
+    '<span class="ts">&#9733;&#9733;&#9733;&#9733;&#9733;</span> Licensed &amp; Insured in Texas',
+    '<span class="to">&#10022;</span> <!-- CITY -->, TX &amp; Surrounding Areas',
+    '<span class="ts">&#127942;</span> Trusted Local Roofer',
+    '<span class="to">&#10022;</span> Free Inspections &middot; No Pressure',
+  ];
+  var doubled=items.concat(items);
+  track.innerHTML=doubled.map(function(s){ return '<span class="ti">'+s+'<span class="ti-sep">&middot;</span></span>'; }).join('');
+})();
 
-        var cx = rect.left + rect.width / 2;
-        var cy = rect.top + rect.height / 2;
-        var angle = Math.atan2(cy - mouse.y, cx - mouse.x);
+/* ── 4. Progressive Carousel (ported from progressive-carousel.tsx) ── */
+(function(){
+  var slides=document.querySelectorAll('.car-slide');
+  var btns=document.querySelectorAll('.car-btn');
+  var progs=[document.getElementById('cprog0'),document.getElementById('cprog1')];
+  var section=document.getElementById('work');
+  if(!slides.length) return;
 
-        // Arrow tip stops at button edge
-        var x1 = cx - Math.cos(angle) * (rect.width / 2 + 10);
-        var y1 = cy - Math.sin(angle) * (rect.height / 2 + 10);
+  var valid=[];
+  slides.forEach(function(slide,i){
+    var img=slide.querySelector('img');
+    var src=img?(img.getAttribute('src')||''):'';
+    if(src&&src.indexOf('PHOTO')===-1){ valid.push(i); }
+    else{ slide.style.display='none'; if(btns[i]) btns[i].style.display='none'; }
+  });
+  if(valid.length===0){ if(section) section.style.display='none'; return; }
+  if(valid.length===1) return;
 
-        var dist = Math.hypot(x1 - mouse.x, y1 - mouse.y);
-        // Fade in after 120px, fully visible at 400px
-        var opacity = Math.min(0.85, Math.max(0, (dist - 120) / 280));
-        if (opacity <= 0) { requestAnimationFrame(draw); return; }
+  var cur=0, DUR=5500, t0=null;
 
-        // Curved control point
-        var midX = (mouse.x + x1) / 2;
-        var midY = (mouse.y + y1) / 2;
-        var curve = Math.min(160, dist * 0.38);
-        var tilt = Math.max(-1, Math.min(1, (mouse.y - y1) / 180));
-        var cpX = midX;
-        var cpY = midY + curve * tilt;
+  function goTo(idx){
+    slides.forEach(function(s,i){ s.classList.toggle('active',i===idx); });
+    btns.forEach(function(b,i){ b.classList.toggle('active',i===idx); if(progs[i]) progs[i].style.width='0%'; });
+    cur=idx; t0=performance.now();
+  }
 
-        // Dashed curve
-        ctx.save();
-        ctx.strokeStyle = 'rgba(' + ORANGE + ', ' + opacity + ')';
-        ctx.lineWidth = 1.8;
-        ctx.setLineDash([9, 5]);
-        ctx.lineCap = 'round';
-        ctx.beginPath();
-        ctx.moveTo(mouse.x, mouse.y);
-        ctx.quadraticCurveTo(cpX, cpY, x1, y1);
-        ctx.stroke();
-        ctx.restore();
+  function tick(now){
+    if(!t0) t0=now;
+    var pct=Math.min(100,((now-t0)/DUR)*100);
+    if(progs[cur]) progs[cur].style.width=pct+'%';
+    if(pct>=100) goTo((cur+1)%valid.length);
+    requestAnimationFrame(tick);
+  }
 
-        // Arrowhead (solid)
-        var headAngle = Math.atan2(y1 - cpY, x1 - cpX);
-        var hl = 11;
-        ctx.save();
-        ctx.strokeStyle = 'rgba(' + ORANGE + ', ' + opacity + ')';
-        ctx.lineWidth = 1.8;
-        ctx.lineCap = 'round';
-        ctx.setLineDash([]);
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x1 - hl * Math.cos(headAngle - Math.PI / 6), y1 - hl * Math.sin(headAngle - Math.PI / 6));
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x1 - hl * Math.cos(headAngle + Math.PI / 6), y1 - hl * Math.sin(headAngle + Math.PI / 6));
-        ctx.stroke();
-        ctx.restore();
+  btns.forEach(function(btn){ btn.addEventListener('click',function(){ goTo(parseInt(btn.getAttribute('data-to'),10)); }); });
+  goTo(0); requestAnimationFrame(tick);
+})();
 
-        requestAnimationFrame(draw);
-      }
+/* ── 5. Services Auto-Cycling (ported from features.tsx) ── */
+(function(){
+  var DATA=[
+    {icon:'&#127968;',name:'Roof Repair',       desc:'From minor leaks to major damage — fast diagnosis, fixed right the first time.'},
+    {icon:'&#128295;',name:'Full Replacement',  desc:'Complete tear-off with premium materials. Permits, disposal, and cleanup included.'},
+    {icon:'&#9928;&#65039;',name:'Storm Damage',desc:'Hail and wind damage specialists. We work directly with your insurance company.'},
+    {icon:'&#128269;',name:'Free Inspection',   desc:'No obligation, no pressure. We tell you exactly what your roof needs.'},
+    {icon:'&#128167;',name:'Gutters',            desc:'Seamless gutter installation, cleaning, and repair to protect your foundation.'},
+    {icon:'&#128203;',name:'Insurance Claims',  desc:'We navigate documentation, adjuster meetings, and final sign-off with you.'},
+  ];
 
-      draw();
-    }
+  var items=document.querySelectorAll('.svc-item');
+  var progs=Array.from({length:6},function(_,i){ return document.getElementById('sp'+i); });
+  var panIcon=document.getElementById('panIcon'), panName=document.getElementById('panName');
+  var panDesc=document.getElementById('panDesc'), panBar=document.getElementById('panBar');
+  if(!items.length) return;
 
-  })();
-  </script>
+  var cur=0, DUR=4800, t0=null;
 
+  function activate(idx){
+    items.forEach(function(item,i){ item.classList.toggle('active',i===idx); if(progs[i]) progs[i].style.width='0%'; });
+    if(panIcon)  panIcon.innerHTML =DATA[idx].icon;
+    if(panName)  panName.textContent=DATA[idx].name;
+    if(panDesc)  panDesc.textContent=DATA[idx].desc;
+    if(panBar)   panBar.style.width ='0%';
+    cur=idx; t0=performance.now();
+  }
+
+  function tick(now){
+    if(!t0) t0=now;
+    var pct=Math.min(100,((now-t0)/DUR)*100);
+    if(progs[cur]) progs[cur].style.width=pct+'%';
+    if(panBar) panBar.style.width=pct+'%';
+    if(pct>=100) activate((cur+1)%DATA.length);
+    requestAnimationFrame(tick);
+  }
+
+  items.forEach(function(item,i){ item.addEventListener('click',function(){ activate(i); }); });
+  activate(0); requestAnimationFrame(tick);
+})();
+
+/* ── 6. Cursor Arrow Canvas (ported from dynamic-hero.tsx) ── */
+(function(){
+  if('ontouchstart' in window||navigator.maxTouchPoints>0) return;
+  var canvas=document.getElementById('arrowCanvas');
+  var ctx=canvas.getContext('2d');
+  var target=document.getElementById('ctaTarget');
+  var mx=null, my=null;
+  var C='244,115,28';
+
+  canvas.style.display='block';
+  function resize(){ canvas.width=window.innerWidth; canvas.height=window.innerHeight; }
+  window.addEventListener('resize',resize); resize();
+  window.addEventListener('mousemove',function(e){ mx=e.clientX; my=e.clientY; });
+
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    if(mx===null||!target){ requestAnimationFrame(draw); return; }
+    var r=target.getBoundingClientRect();
+    var cx=r.left+r.width/2, cy=r.top+r.height/2;
+    var dist=Math.hypot(cx-mx,cy-my);
+    var min=Math.max(r.width,r.height)/2+18;
+    if(dist<min+36){ requestAnimationFrame(draw); return; }
+    var op=Math.min(0.82,(dist-min)/260);
+    if(op<=0.02){ requestAnimationFrame(draw); return; }
+    var angle=Math.atan2(cy-my,cx-mx);
+    var x1=cx-Math.cos(angle)*(r.width/2+10);
+    var y1=cy-Math.sin(angle)*(r.height/2+10);
+    var midX=(mx+x1)/2, midY=(my+y1)/2;
+    var tilt=Math.max(-1,Math.min(1,(my-y1)/220));
+    var bend=Math.min(200,dist*.44);
+    ctx.save(); ctx.strokeStyle='rgba('+C+','+op+')'; ctx.lineWidth=2; ctx.setLineDash([9,5]); ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(mx,my); ctx.quadraticCurveTo(midX,midY+bend*tilt,x1,y1); ctx.stroke(); ctx.restore();
+    var ha=Math.atan2(y1-(midY+bend*tilt),x1-midX), hl=11;
+    ctx.save(); ctx.fillStyle='rgba('+C+','+op+')'; ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(x1,y1);
+    ctx.lineTo(x1-hl*Math.cos(ha-Math.PI/6),y1-hl*Math.sin(ha-Math.PI/6));
+    ctx.lineTo(x1-hl*Math.cos(ha+Math.PI/6),y1-hl*Math.sin(ha+Math.PI/6));
+    ctx.closePath(); ctx.fill(); ctx.restore();
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ── 7. Form ── */
+(function(){
+  var form=document.getElementById('estForm'), ok=document.getElementById('fSuccess');
+  if(!form) return;
+  form.addEventListener('submit',function(e){ e.preventDefault(); form.style.display='none'; if(ok) ok.style.display='block'; });
+})();
+</script>
 </body>
 </html>
