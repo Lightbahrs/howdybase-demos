@@ -30,87 +30,129 @@
 
     /* ── HERO ── */
     .hero {
-      background-color: var(--navy);
-      background-image: var(--hero-bg, none);
-      background-size: cover;
-      background-position: center top;
+      background: linear-gradient(140deg, #0d1b2a 0%, #1a2e45 100%);
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 60px 24px 80px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 48px;
+      padding: 80px 24px;
       position: relative;
       overflow: hidden;
     }
 
-    /* gradient: transparent at top → dark navy at bottom — shows photo clearly */
+    /* Subtle orange glow top-right */
     .hero::before {
       content: '';
       position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to bottom,
-        rgba(13, 27, 42, 0.25) 0%,
-        rgba(13, 27, 42, 0.50) 45%,
-        rgba(13, 27, 42, 0.88) 100%
-      );
+      top: -240px;
+      right: -240px;
+      width: 640px;
+      height: 640px;
+      background: radial-gradient(circle, rgba(244,115,28,0.10) 0%, transparent 68%);
       pointer-events: none;
-      z-index: 0;
     }
 
+    /* Orange accent line at bottom */
     .hero::after {
       content: '';
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
-      height: 4px;
+      height: 3px;
       background: var(--orange);
-      z-index: 2;
     }
 
-    .hero > * {
+    .hero-content {
+      flex: 1;
+      max-width: 560px;
       position: relative;
       z-index: 1;
     }
 
-    /* PHOTO STRIP */
-    .photo-strip {
-      display: grid;
-      grid-template-columns: repeat(var(--strip-cols, 3), 1fr);
-      height: 320px;
-      overflow: hidden;
+    .hero-visual {
+      flex: 0 0 400px;
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
     }
 
-    .photo-strip.strip-2 { --strip-cols: 2; }
-    .photo-strip.hidden { display: none; }
+    .hero-photo-frame {
+      border-radius: 16px;
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+      background: var(--navy-light);
+      border: 1px solid rgba(255,255,255,0.07);
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
+    }
 
-    .photo-strip img {
+    .hero-photo-frame img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.4s ease;
+      transition: transform 0.5s ease;
     }
 
-    .photo-strip img:hover { transform: scale(1.03); }
+    .hero-photo-frame:hover img { transform: scale(1.03); }
+
+    .hero-proof-bar {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .proof-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .proof-stars { font-size: 13px; letter-spacing: 1px; }
+
+    .proof-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .proof-badge {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--orange);
+      background: rgba(244,115,28,0.12);
+      border: 1px solid rgba(244,115,28,0.25);
+      padding: 4px 10px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
 
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(244,115,28,0.15);
-      border: 1px solid rgba(244,115,28,0.3);
+      background: rgba(244,115,28,0.12);
+      border: 1px solid rgba(244,115,28,0.28);
       color: var(--orange);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       padding: 6px 14px;
       border-radius: 100px;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
       width: fit-content;
-      animation: fadeUp 0.6s ease both;
+      animation: fadeUp 0.5s ease both;
     }
 
     .badge-dot {
@@ -123,27 +165,26 @@
 
     @keyframes pulse {
       0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.8); }
+      50% { opacity: 0.4; transform: scale(0.7); }
     }
 
     .hero-eyebrow {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 500;
-      color: rgba(255,255,255,0.5);
-      letter-spacing: 0.05em;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      margin-bottom: 16px;
-      animation: fadeUp 0.7s ease both;
+      margin-bottom: 14px;
+      animation: fadeUp 0.6s ease both;
     }
 
     .hero-title {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(52px, 12vw, 96px);
-      line-height: 0.95;
+      font-size: clamp(56px, 10vw, 88px);
+      line-height: 0.93;
       color: var(--white);
-      margin-bottom: 12px;
-      animation: fadeUp 0.8s ease both;
+      margin-bottom: 20px;
+      animation: fadeUp 0.7s ease both;
     }
 
     .hero-title span {
@@ -152,41 +193,43 @@
     }
 
     .hero-sub {
-      font-size: 18px;
-      color: rgba(255,255,255,0.75);
-      line-height: 1.6;
-      max-width: 520px;
-      margin-bottom: 40px;
-      animation: fadeUp 0.9s ease both;
+      font-size: 17px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.65;
+      max-width: 460px;
+      margin-bottom: 36px;
+      animation: fadeUp 0.8s ease both;
     }
 
     .hero-stats {
       display: flex;
-      gap: 32px;
-      margin-bottom: 48px;
-      animation: fadeUp 1s ease both;
+      gap: 28px;
+      margin-bottom: 44px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      animation: fadeUp 0.9s ease both;
     }
 
-    .stat { display: flex; flex-direction: column; }
+    .stat { display: flex; flex-direction: column; gap: 3px; }
 
     .stat-number {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 42px;
+      font-size: 40px;
       color: var(--orange);
       line-height: 1;
     }
 
     .stat-label {
-      font-size: 13px;
-      color: rgba(255,255,255,0.5);
-      margin-top: 4px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.03em;
     }
 
     .hero-cta {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      animation: fadeUp 1.1s ease both;
+      gap: 14px;
+      animation: fadeUp 1s ease both;
     }
 
     .btn-primary {
@@ -196,35 +239,62 @@
       gap: 10px;
       background: var(--orange);
       color: var(--white);
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 600;
-      padding: 18px 32px;
+      padding: 16px 30px;
       border-radius: 8px;
       text-decoration: none;
-      transition: background 0.2s, transform 0.1s;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
       width: fit-content;
+      box-shadow: 0 4px 24px rgba(244,115,28,0.35);
     }
 
-    .btn-primary:hover { background: var(--orange-dark); transform: translateY(-1px); }
+    .btn-primary:hover {
+      background: var(--orange-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 32px rgba(244,115,28,0.45);
+    }
+
     .btn-primary:active { transform: translateY(0); }
 
     .btn-secondary {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      color: rgba(255,255,255,0.6);
-      font-size: 15px;
+      color: rgba(255,255,255,0.5);
+      font-size: 14px;
       text-decoration: none;
       width: fit-content;
       transition: color 0.2s;
+      letter-spacing: 0.02em;
     }
 
-    .btn-secondary:hover { color: var(--white); }
+    .btn-secondary:hover { color: rgba(255,255,255,0.85); }
 
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    /* ── PHOTO STRIP (2 photos) ── */
+    .photo-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: 320px;
+      overflow: hidden;
+    }
+
+    .photo-strip.hidden { display: none; }
+
+    .photo-strip img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .photo-strip img:hover { transform: scale(1.04); }
 
     /* ── REVIEWS ── */
     .reviews {
@@ -233,55 +303,54 @@
     }
 
     .section-label {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--orange);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .section-title {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(36px, 8vw, 56px);
+      font-size: clamp(36px, 7vw, 52px);
       color: var(--navy);
       line-height: 1;
-      margin-bottom: 48px;
+      margin-bottom: 44px;
     }
 
-    .reviews-grid { display: grid; gap: 20px; }
+    .reviews-grid { display: grid; gap: 16px; }
 
     .review-card {
       background: var(--white);
       border-radius: 12px;
-      padding: 28px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.04);
       border-left: 3px solid var(--orange);
       transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .review-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
     }
 
-    .stars { display: flex; gap: 3px; margin-bottom: 14px; }
-    .star { color: #fbbf24; font-size: 16px; }
+    .stars { font-size: 14px; margin-bottom: 12px; letter-spacing: 1px; }
 
     .review-text {
       font-size: 15px;
       line-height: 1.7;
       color: #374151;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
-    .reviewer { font-size: 13px; font-weight: 600; color: var(--muted); }
+    .reviewer { font-size: 12px; font-weight: 600; color: var(--muted); }
 
     .google-link {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      margin-top: 32px;
+      margin-top: 28px;
       color: var(--muted);
       font-size: 13px;
       text-decoration: none;
@@ -297,29 +366,29 @@
     /* ── SERVICES ── */
     .services { background: var(--navy); padding: 80px 24px; }
     .services .section-title { color: var(--white); }
-    .services-grid { display: grid; gap: 16px; }
+    .services-grid { display: grid; gap: 12px; }
 
     .service-card {
-      background: var(--navy-light);
+      background: rgba(255,255,255,0.03);
       border-radius: 10px;
-      padding: 24px;
+      padding: 22px;
       border: 1px solid rgba(255,255,255,0.06);
       display: flex;
       align-items: flex-start;
-      gap: 16px;
-      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      gap: 14px;
+      transition: transform 0.2s, border-color 0.2s, background 0.2s;
       cursor: default;
     }
 
     .service-card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(244,115,28,0.35);
-      box-shadow: 0 8px 28px rgba(0,0,0,0.25);
+      transform: translateY(-2px);
+      border-color: rgba(244,115,28,0.30);
+      background: rgba(244,115,28,0.04);
     }
 
-    .service-icon { font-size: 28px; flex-shrink: 0; }
-    .service-name { font-weight: 600; font-size: 16px; color: var(--white); margin-bottom: 6px; }
-    .service-desc { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+    .service-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+    .service-name { font-weight: 600; font-size: 15px; color: var(--white); margin-bottom: 4px; }
+    .service-desc { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.55; }
 
     /* ── CONTACT FORM ── */
     .contact {
@@ -327,31 +396,28 @@
       padding: 80px 24px;
     }
 
+    .contact-inner {
+      max-width: 600px;
+    }
+
     .contact .section-title { color: var(--navy); }
 
     .contact-form {
-      max-width: 560px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
     }
 
-    .form-row {
-      display: grid;
-      gap: 16px;
-    }
+    .form-row { display: grid; gap: 14px; }
 
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
 
     .form-group label {
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 700;
       color: var(--navy);
-      letter-spacing: 0.02em;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
     }
 
     .form-group input,
@@ -363,63 +429,73 @@
       background: var(--gray);
       border: 1.5px solid #e5e7eb;
       border-radius: 8px;
-      padding: 12px 16px;
+      padding: 12px 14px;
       outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
       width: 100%;
+      -webkit-appearance: none;
     }
 
     .form-group input:focus,
     .form-group select:focus,
     .form-group textarea:focus {
       border-color: var(--orange);
-      box-shadow: 0 0 0 3px rgba(244,115,28,0.12);
+      box-shadow: 0 0 0 3px rgba(244,115,28,0.10);
       background: var(--white);
     }
 
-    .form-group textarea { resize: vertical; min-height: 110px; }
+    .form-group textarea { resize: vertical; min-height: 100px; }
 
     .btn-submit {
       font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 600;
       color: var(--white);
-      background: var(--orange);
+      background: var(--navy);
       border: none;
       border-radius: 8px;
-      padding: 16px 32px;
+      padding: 15px 28px;
       cursor: pointer;
       transition: background 0.2s, transform 0.1s;
       align-self: flex-start;
+      letter-spacing: 0.02em;
     }
 
-    .btn-submit:hover { background: var(--orange-dark); transform: translateY(-1px); }
+    .btn-submit:hover { background: #1a2e45; transform: translateY(-1px); }
     .btn-submit:active { transform: translateY(0); }
 
     .form-success {
       background: #f0fdf4;
       border: 1.5px solid #86efac;
       border-radius: 10px;
-      padding: 28px 24px;
+      padding: 24px;
       color: #166534;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 500;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     /* ── CTA FOOTER ── */
     .cta-footer { background: var(--orange); padding: 80px 24px; text-align: center; }
-    .cta-footer .section-label { color: rgba(255,255,255,0.7); }
+    .cta-footer .section-label { color: rgba(255,255,255,0.65); }
 
     .cta-title {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(40px, 10vw, 72px);
+      font-size: clamp(44px, 10vw, 72px);
       color: var(--white);
-      line-height: 1;
+      line-height: 0.95;
       margin-bottom: 16px;
     }
 
-    .cta-sub { font-size: 18px; color: rgba(255,255,255,0.8); margin-bottom: 40px; line-height: 1.5; }
+    .cta-sub {
+      font-size: 17px;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 36px;
+      line-height: 1.55;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
     .btn-white {
       display: inline-flex;
@@ -427,20 +503,21 @@
       gap: 10px;
       background: var(--white);
       color: var(--orange);
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 700;
-      padding: 20px 40px;
+      padding: 18px 36px;
       border-radius: 8px;
       text-decoration: none;
       transition: transform 0.1s, box-shadow 0.2s;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.18);
     }
 
-    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(0,0,0,0.24); }
 
     .footer { background: var(--navy); padding: 24px; text-align: center; }
-    .footer-text { font-size: 13px; color: rgba(255,255,255,0.3); }
+    .footer-text { font-size: 12px; color: rgba(255,255,255,0.25); letter-spacing: 0.03em; }
 
+    /* ── RESPONSIVE ── */
     @media (min-width: 640px) {
       .reviews-grid { grid-template-columns: 1fr 1fr; }
       .services-grid { grid-template-columns: 1fr 1fr; }
@@ -448,8 +525,12 @@
       .form-row { grid-template-columns: 1fr 1fr; }
     }
 
+    @media (min-width: 960px) {
+      .hero { padding: 80px 64px; }
+      .hero-visual { display: flex; }
+    }
+
     @media (min-width: 1024px) {
-      .hero { padding: 100px 64px; }
       .reviews { padding: 100px 64px; }
       .services { padding: 100px 64px; }
       .contact { padding: 100px 64px; }
@@ -460,48 +541,65 @@
 </head>
 <body>
 
-  <section class="hero" style="<!-- HERO_PHOTO_STYLE -->">
-    <div class="badge">
-      <span class="badge-dot"></span>
-      <!-- CITY -->, TX · Verified Business
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        <!-- CITY -->, TX · Verified Business
+      </div>
+      <p class="hero-eyebrow">Roofing Contractor</p>
+      <h1 class="hero-title">
+        <!-- BUSINESS_NAME_MAIN -->
+        <span><!-- BUSINESS_NAME_SUB --></span>
+      </h1>
+      <p class="hero-sub"><!-- HERO_SUB --></p>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-number"><!-- REVIEW_COUNT --></span>
+          <span class="stat-label">Google Reviews</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number"><!-- RATING --></span>
+          <span class="stat-label">Star Rating</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number"><!-- STAT_3_VALUE --></span>
+          <span class="stat-label"><!-- STAT_3_LABEL --></span>
+        </div>
+      </div>
+      <div class="hero-cta">
+        <a href="tel:<!-- PHONE_DIGITS -->" class="btn-primary" id="ctaTarget">
+          📞 <!-- PHONE_DISPLAY -->
+        </a>
+        <a href="#estimate" class="btn-secondary">
+          Get a free estimate →
+        </a>
+      </div>
     </div>
-    <p class="hero-eyebrow">Roofing Contractor</p>
-    <h1 class="hero-title">
-      <!-- BUSINESS_NAME_MAIN -->
-      <span><!-- BUSINESS_NAME_SUB --></span>
-    </h1>
-    <p class="hero-sub"><!-- HERO_SUB --></p>
-    <div class="hero-stats">
-      <div class="stat">
-        <span class="stat-number"><!-- REVIEW_COUNT --></span>
-        <span class="stat-label">Google Reviews</span>
+
+    <!-- Photo card — right column, desktop only -->
+    <div class="hero-visual" id="heroVisual">
+      <div class="hero-photo-frame" id="heroPhotoFrame">
+        <img src="<!-- PHOTO_1_URL -->" alt="<!-- BUSINESS_NAME -->" id="heroPhotoImg">
       </div>
-      <div class="stat">
-        <span class="stat-number"><!-- RATING --></span>
-        <span class="stat-label">Star Rating</span>
+      <div class="hero-proof-bar">
+        <div class="proof-left">
+          <span class="proof-stars">⭐⭐⭐⭐⭐</span>
+          <span class="proof-text"><!-- REVIEW_COUNT --> reviews on Google</span>
+        </div>
+        <span class="proof-badge"><!-- RATING --> / 5 Stars</span>
       </div>
-      <div class="stat">
-        <span class="stat-number"><!-- STAT_3_VALUE --></span>
-        <span class="stat-label"><!-- STAT_3_LABEL --></span>
-      </div>
-    </div>
-    <div class="hero-cta">
-      <a href="tel:<!-- PHONE_DIGITS -->" class="btn-primary">
-        📞 Call <!-- PHONE_DISPLAY -->
-      </a>
-      <a href="#estimate" class="btn-secondary">
-        Get a free estimate →
-      </a>
     </div>
   </section>
 
-  <!-- PHOTO STRIP — hidden by default; JS shows it when photos are present -->
+  <!-- ── PHOTO STRIP (photos 2 & 3) ── -->
   <div class="photo-strip hidden" id="photoStrip">
-    <img src="<!-- PHOTO_1_URL -->" alt="" loading="lazy" id="stripPhoto1">
-    <img src="<!-- PHOTO_2_URL -->" alt="" loading="lazy" id="stripPhoto2">
-    <img src="<!-- PHOTO_3_URL -->" alt="" loading="lazy" id="stripPhoto3">
+    <img src="<!-- PHOTO_2_URL -->" alt="" loading="lazy" id="stripPhoto1">
+    <img src="<!-- PHOTO_3_URL -->" alt="" loading="lazy" id="stripPhoto2">
   </div>
 
+  <!-- ── REVIEWS ── -->
   <section class="reviews" id="reviews">
     <div class="section-label">What Customers Say</div>
     <h2 class="section-title">Real Reviews.<br>Real Results.</h2>
@@ -527,6 +625,7 @@
     </a>
   </section>
 
+  <!-- ── SERVICES ── -->
   <section class="services">
     <div class="section-label">What We Do</div>
     <h2 class="section-title">Full Roofing<br>Services</h2>
@@ -535,7 +634,7 @@
         <span class="service-icon">🏠</span>
         <div>
           <p class="service-name">Roof Replacement</p>
-          <p class="service-desc">Full residential and commercial roof replacement with premium materials and a clean job site.</p>
+          <p class="service-desc">Full residential and commercial replacement with premium materials and a spotless job site.</p>
         </div>
       </div>
       <div class="service-card">
@@ -549,14 +648,14 @@
         <span class="service-icon">⛈️</span>
         <div>
           <p class="service-name">Storm Damage</p>
-          <p class="service-desc">Insurance claim assistance and storm restoration — we handle the paperwork and the work.</p>
+          <p class="service-desc">Insurance claim assistance and full storm restoration — we handle the paperwork and the work.</p>
         </div>
       </div>
       <div class="service-card">
         <span class="service-icon">🔍</span>
         <div>
           <p class="service-name">Free Inspection</p>
-          <p class="service-desc">Thorough roof inspections with a detailed report and honest advice — no pressure, ever.</p>
+          <p class="service-desc">Thorough inspections with a detailed written report — honest advice, no pressure sales.</p>
         </div>
       </div>
       <div class="service-card">
@@ -570,51 +669,54 @@
         <span class="service-icon">📋</span>
         <div>
           <p class="service-name">Insurance Claims</p>
-          <p class="service-desc">We work directly with your insurance company so you don't have to navigate it alone.</p>
+          <p class="service-desc">We work directly with your insurer so you don't have to navigate the process alone.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT / ESTIMATE FORM -->
+  <!-- ── CONTACT / ESTIMATE FORM ── -->
   <section class="contact" id="estimate">
-    <div class="section-label">Free Estimate</div>
-    <h2 class="section-title">Request a<br>Callback.</h2>
-    <form class="contact-form" id="contactForm" novalidate>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="fname">Your Name</label>
-          <input type="text" id="fname" name="name" placeholder="John Smith" required>
+    <div class="contact-inner">
+      <div class="section-label">Free Estimate</div>
+      <h2 class="section-title">Request a<br>Callback.</h2>
+      <form class="contact-form" id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fname">Your Name</label>
+            <input type="text" id="fname" name="name" placeholder="John Smith" required>
+          </div>
+          <div class="form-group">
+            <label for="fphone">Phone Number</label>
+            <input type="tel" id="fphone" name="phone" placeholder="(555) 555-5555" required>
+          </div>
         </div>
         <div class="form-group">
-          <label for="fphone">Phone Number</label>
-          <input type="tel" id="fphone" name="phone" placeholder="(555) 555-5555" required>
+          <label for="femail">Email Address</label>
+          <input type="email" id="femail" name="email" placeholder="john@example.com">
         </div>
-      </div>
-      <div class="form-group">
-        <label for="femail">Email Address</label>
-        <input type="email" id="femail" name="email" placeholder="john@example.com">
-      </div>
-      <div class="form-group">
-        <label for="fservice">What do you need?</label>
-        <select id="fservice" name="service">
-          <option value="">Select a service...</option>
-          <option>Roof Replacement</option>
-          <option>Roof Repair</option>
-          <option>Storm Damage / Insurance Claim</option>
-          <option>Free Inspection</option>
-          <option>Gutters or Siding</option>
-          <option>Other</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="fmessage">Anything else? (optional)</label>
-        <textarea id="fmessage" name="message" placeholder="Describe your situation or any questions you have..."></textarea>
-      </div>
-      <button type="submit" class="btn-submit">Send My Request →</button>
-    </form>
+        <div class="form-group">
+          <label for="fservice">What do you need?</label>
+          <select id="fservice" name="service">
+            <option value="">Select a service...</option>
+            <option>Roof Replacement</option>
+            <option>Roof Repair</option>
+            <option>Storm Damage / Insurance Claim</option>
+            <option>Free Inspection</option>
+            <option>Gutters or Siding</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="fmessage">Anything else? (optional)</label>
+          <textarea id="fmessage" name="message" placeholder="Describe your situation or any questions you have..."></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Send My Request →</button>
+      </form>
+    </div>
   </section>
 
+  <!-- ── CTA FOOTER ── -->
   <section class="cta-footer">
     <div class="section-label">Ready to Get Started?</div>
     <h2 class="cta-title">Need a Roof?<br>Call Today.</h2>
@@ -628,39 +730,152 @@
     <p class="footer-text"><!-- BUSINESS_NAME --> · <!-- CITY -->, TX · Licensed & Insured</p>
   </footer>
 
+  <!-- Canvas for cursor → CTA arrow (desktop only) -->
+  <canvas id="arrowCanvas" style="position:fixed;inset:0;pointer-events:none;z-index:100;display:none;"></canvas>
+
   <script>
   (function() {
-    // Photo strip
-    var strip = document.getElementById('photoStrip');
-    var p1 = document.getElementById('stripPhoto1');
-    var p2 = document.getElementById('stripPhoto2');
-    var p3 = document.getElementById('stripPhoto3');
-    var validSrc = function(el) { return (el.getAttribute('src') || '').startsWith('http'); };
-    var count = [p1, p2, p3].filter(validSrc).length;
-    if (count >= 2) {
-      strip.classList.remove('hidden');
-      if (count === 2) {
-        strip.classList.add('strip-2');
-        p3.style.display = 'none';
+
+    // ── Hero photo: hide frame if photo failed to load ──
+    var heroImg = document.getElementById('heroPhotoImg');
+    var heroVisual = document.getElementById('heroVisual');
+    if (heroImg) {
+      var src = heroImg.getAttribute('src') || '';
+      if (!src.startsWith('http')) {
+        if (heroVisual) heroVisual.style.display = 'none';
+      } else {
+        heroImg.addEventListener('error', function() {
+          if (heroVisual) heroVisual.style.display = 'none';
+        });
       }
     }
 
-    // Contact form
+    // ── Photo strip: show if photos 2 & 3 are valid ──
+    var strip = document.getElementById('photoStrip');
+    var sp1 = document.getElementById('stripPhoto1');
+    var sp2 = document.getElementById('stripPhoto2');
+    if (strip) {
+      var validSrc = function(el) { return el && (el.getAttribute('src') || '').startsWith('http'); };
+      var count = [sp1, sp2].filter(validSrc).length;
+      if (count >= 1) strip.classList.remove('hidden');
+      if (count === 1 && sp2 && !validSrc(sp2)) sp2.style.display = 'none';
+    }
+
+    // ── Contact form ──
     var form = document.getElementById('contactForm');
     if (form) {
       form.addEventListener('submit', function(e) {
         e.preventDefault();
         var name = document.getElementById('fname').value.trim();
         var phone = document.getElementById('fphone').value.trim();
-        if (!name || !phone) {
-          document.getElementById('fname').style.borderColor = name ? '' : 'var(--orange)';
-          document.getElementById('fphone').style.borderColor = phone ? '' : 'var(--orange)';
-          return;
-        }
-        form.innerHTML = '<div class="form-success">✓ Got it, ' + name + '! Someone will reach out to ' + phone + ' within a few hours to schedule your free estimate.</div>';
+        var hasError = false;
+        [['fname', name], ['fphone', phone]].forEach(function(pair) {
+          var el = document.getElementById(pair[0]);
+          if (!pair[1]) { el.style.borderColor = 'var(--orange)'; hasError = true; }
+          else el.style.borderColor = '';
+        });
+        if (hasError) return;
+        form.innerHTML = '<div class="form-success">✓ Got it, ' + name + '! We\'ll call ' + phone + ' within a few hours to schedule your free estimate.</div>';
         form.scrollIntoView({ behavior: 'smooth', block: 'center' });
       });
     }
+
+    // ── Canvas cursor arrow (desktop / mouse only) ──
+    var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    if (!isTouchDevice) {
+      var canvas = document.getElementById('arrowCanvas');
+      var ctx = canvas.getContext('2d');
+      var target = document.getElementById('ctaTarget');
+      var mouse = { x: null, y: null };
+      var ORANGE = '244, 115, 28';
+
+      canvas.style.display = 'block';
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      window.addEventListener('resize', resize);
+      window.addEventListener('mousemove', function(e) {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+      resize();
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (mouse.x === null || !target) {
+          requestAnimationFrame(draw);
+          return;
+        }
+
+        var rect = target.getBoundingClientRect();
+        // Don't draw if cursor is hovering the button
+        if (
+          mouse.x >= rect.left && mouse.x <= rect.right &&
+          mouse.y >= rect.top && mouse.y <= rect.bottom
+        ) {
+          requestAnimationFrame(draw);
+          return;
+        }
+
+        var cx = rect.left + rect.width / 2;
+        var cy = rect.top + rect.height / 2;
+        var angle = Math.atan2(cy - mouse.y, cx - mouse.x);
+
+        // Arrow tip stops at button edge
+        var x1 = cx - Math.cos(angle) * (rect.width / 2 + 10);
+        var y1 = cy - Math.sin(angle) * (rect.height / 2 + 10);
+
+        var dist = Math.hypot(x1 - mouse.x, y1 - mouse.y);
+        // Fade in after 120px, fully visible at 400px
+        var opacity = Math.min(0.85, Math.max(0, (dist - 120) / 280));
+        if (opacity <= 0) { requestAnimationFrame(draw); return; }
+
+        // Curved control point
+        var midX = (mouse.x + x1) / 2;
+        var midY = (mouse.y + y1) / 2;
+        var curve = Math.min(160, dist * 0.38);
+        var tilt = Math.max(-1, Math.min(1, (mouse.y - y1) / 180));
+        var cpX = midX;
+        var cpY = midY + curve * tilt;
+
+        // Dashed curve
+        ctx.save();
+        ctx.strokeStyle = 'rgba(' + ORANGE + ', ' + opacity + ')';
+        ctx.lineWidth = 1.8;
+        ctx.setLineDash([9, 5]);
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(mouse.x, mouse.y);
+        ctx.quadraticCurveTo(cpX, cpY, x1, y1);
+        ctx.stroke();
+        ctx.restore();
+
+        // Arrowhead (solid)
+        var headAngle = Math.atan2(y1 - cpY, x1 - cpX);
+        var hl = 11;
+        ctx.save();
+        ctx.strokeStyle = 'rgba(' + ORANGE + ', ' + opacity + ')';
+        ctx.lineWidth = 1.8;
+        ctx.lineCap = 'round';
+        ctx.setLineDash([]);
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x1 - hl * Math.cos(headAngle - Math.PI / 6), y1 - hl * Math.sin(headAngle - Math.PI / 6));
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x1 - hl * Math.cos(headAngle + Math.PI / 6), y1 - hl * Math.sin(headAngle + Math.PI / 6));
+        ctx.stroke();
+        ctx.restore();
+
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+    }
+
   })();
   </script>
 
